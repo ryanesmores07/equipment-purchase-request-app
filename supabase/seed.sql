@@ -1,0 +1,3 @@
+-- Cloud-mode project: data seeds that must run for reviewers should live in
+-- idempotent migrations or scripts. This file exists because Supabase config
+-- references it for local CLI compatibility.

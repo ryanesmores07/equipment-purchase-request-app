@@ -11,6 +11,7 @@
     "test": "vitest run --passWithNoTests --exclude tests/repositories/**",
     "test:integration": "dotenv -e .env.local -- vitest run tests/repositories",
     "test:all": "pnpm test && pnpm test:integration",
+    "setup": "pnpm exec supabase login && pnpm exec supabase link && pnpm db:push && pnpm db:seed-users && pnpm db:types",
     "db:push": "pnpm exec supabase db push",
     "db:seed-users": "dotenv -e .env.local -- tsx supabase/seed-users.ts",
     "db:types": "pnpm exec supabase gen types typescript --linked --schema=public > types/supabase.ts"
