@@ -57,12 +57,14 @@ This file is the project memory for implementation work. Update it after every m
 | 2026-05-21 | Supabase SSR auth foundation | `epr-auth-server-actions` | Added Supabase env helper, browser/server clients, middleware session refresh, login/logout server actions, and `requireUser`/`requireRole` helpers. | `pnpm lint`, `pnpm typecheck`, `pnpm test` (13 tests), and `pnpm build` passed. Build includes middleware. | Commit auth foundation, then add typed repositories and seed-user script after DB types or hand-written row types are available. |
 | 2026-05-21 | Repositories and seed-user script | `epr-auth-server-actions` | Added hand-written row types, repositories for categories/profiles/requests/history, and `supabase/seed-users.ts` for service-role seeded employee/admin accounts. | `pnpm lint`, `pnpm typecheck`, `pnpm test` (13 tests), and `pnpm build` passed. Seed script was not executed because `.env.local` and linked Supabase credentials are not configured in this session. | Commit data access batch, then build request server actions and route pages. |
 | 2026-05-21 | First request workflow UI | `epr-request-ui` | Added login page/form, authenticated shell, root redirect, request list, create request form, detail page, admin approval panel, loading states, and request server actions. | `pnpm lint`, `pnpm typecheck`, `pnpm test` (13 tests), and `pnpm build` passed. A stale `.next` cache caused one transient build page-data error and was fixed by deleting generated `.next` and rebuilding. Browser walkthrough not run because Supabase Cloud credentials are not configured. | Commit UI workflow, then link Supabase Cloud, push migrations, seed users, generate DB types, and run a live walkthrough. |
+| 2026-05-21 | Live Supabase cloud verification | `epr-database-rls` + `epr-auth-server-actions` + `epr-request-ui` | Configured Supabase MCP, installed Supabase agent skills, applied cloud migrations, added function/RLS hardening migration, generated `types/supabase.ts`, seeded employee/admin accounts, and kept server-action initial state out of `"use server"` modules. | Supabase security advisors clean; performance advisors only reported fresh-database unused-index info. `pnpm lint`, `pnpm typecheck`, `pnpm test` (13 tests), `pnpm build`, browser employee create flow, browser admin approval flow, and SQL audit-history check passed. | Commit live Supabase verification batch, then update README/setup handoff and prepare final reviewer instructions. |
 
 ## Next Execution Batch
 
-Next batch needs live Supabase setup:
+Next batch should focus on reproducibility and handoff:
 
-- Fill `.env.local` from a Supabase Cloud project.
-- Run `pnpm exec supabase link`, `pnpm db:push`, `pnpm db:seed-users`, and `pnpm db:types`.
-- Run the app locally and verify employee create flow plus admin approve/reject flow.
+- Update README setup and reviewer credentials.
+- Confirm `.env.example` matches the live setup path without exposing secrets.
+- Re-run `pnpm lint`, `pnpm typecheck`, `pnpm test`, and `pnpm build` after docs/setup edits.
+- Review `git status --short` for only reviewer-relevant files.
 - Keep `pnpm lint`, `pnpm typecheck`, `pnpm test`, and `pnpm build` passing.

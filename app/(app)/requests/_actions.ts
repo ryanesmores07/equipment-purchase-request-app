@@ -22,10 +22,6 @@ type ActionState = {
 
 export type RequestActionState = ActionState;
 
-const initialActionState: RequestActionState = {};
-
-export { initialActionState };
-
 export async function createRequestAction(
   _previousState: RequestActionState,
   formData: FormData,

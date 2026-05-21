@@ -3,9 +3,11 @@
 import { useActionState } from "react";
 import {
   createRequestAction,
-  initialActionState,
+  type RequestActionState,
 } from "@/app/(app)/requests/_actions";
 import type { CategoryRow } from "@/lib/repositories/types";
+
+const initialActionState: RequestActionState = {};
 
 export function CreateRequestForm({
   categories,

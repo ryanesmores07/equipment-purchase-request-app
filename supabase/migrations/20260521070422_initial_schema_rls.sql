@@ -258,3 +258,9 @@ grant select, insert on public.purchase_requests to authenticated;
 grant update(status, decided_at, decided_by, decision_note)
   on public.purchase_requests to authenticated;
 grant select on public.approval_history to authenticated;
+
+revoke execute on function public.is_admin() from public;
+grant execute on function public.is_admin() to authenticated;
+revoke execute on function public.tg_handle_new_user() from public;
+revoke execute on function public.tg_enforce_purchase_request_update() from public;
+revoke execute on function public.tg_write_approval_history() from public;

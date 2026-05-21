@@ -3,8 +3,10 @@
 import { useActionState } from "react";
 import {
   decideRequestAction,
-  initialActionState,
+  type RequestActionState,
 } from "@/app/(app)/requests/_actions";
+
+const initialActionState: RequestActionState = {};
 
 export function ApprovalPanel({ requestId }: { requestId: string }) {
   const [state, formAction, pending] = useActionState(
