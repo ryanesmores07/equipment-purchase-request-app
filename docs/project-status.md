@@ -9,6 +9,7 @@ This file is the project memory for implementation work. Update it after every m
 - GitHub account for this repo: personal `ryanesmores07`
 - Global GitHub default should remain the work account.
 - Stack baseline: Next.js `15.5.18`, React `19.2.4`, TypeScript, Tailwind CSS, ESLint, pnpm.
+- Core app dependencies: `@supabase/supabase-js` `2.106.0`, `@supabase/ssr` `0.10.3`, `zod` `4.4.3`, `supabase` CLI `2.100.1`, `vitest` `4.1.6`.
 - Baseline verification: `pnpm lint` and `pnpm build` passed before the preparation commit.
 - Preparation commit: `03193a2` preparation baseline.
 
@@ -49,13 +50,13 @@ This file is the project memory for implementation work. Update it after every m
 | 2026-05-21 | Preparation baseline | `epr-senior-orchestrator` | Added project agent routing, EPR skills, Next.js 15 baseline, personal GitHub repo-local setup. | `pnpm lint`, `pnpm build`, pushed `dev`. | Start Batch 1: clean boilerplate and install core app dependencies. |
 | 2026-05-21 | Repo hygiene and two-PC workflow | `epr-senior-orchestrator` | Added repo cleanliness rules, cross-PC workflow guidance, and stricter ignore rules for env/temp/local files. | `pnpm lint`; hygiene scan found only expected docs references to env/token concepts, no committed secrets. | Commit and push hygiene update, then start Batch 1. |
 | 2026-05-21 | Commit message rule cleanup | `epr-senior-orchestrator` | Removed the old Japanese commit-message prefix rule and replaced it with concise English Conventional Commits-style guidance. | `rg` scan confirmed old prefix is no longer present in repo instructions/docs. `pnpm lint` was not used for this docs-only batch because unrelated dependency changes currently require pnpm build approval for `esbuild`. | Commit only rule/docs changes; keep unrelated app/dependency changes out of this commit. |
+| 2026-05-21 | Batch 1 app baseline and tooling | `epr-reproducibility-qa` | Removed starter page content, set app metadata, installed Supabase/Zod/Vitest/Supabase CLI tooling, added Vitest config and test scripts, approved `esbuild` build scripts in pnpm workspace config. | `pnpm install`, `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm build` all passed. `pnpm test` has no tests yet and exits cleanly with `--passWithNoTests`. | Commit Batch 1, then start Supabase project layout and `.env.example` setup. |
 
 ## Next Execution Batch
 
-Batch 1 should:
+Next batch should initialize reproducibility/config scaffolding:
 
-- Remove default Next.js starter content from `app/page.tsx`.
-- Set proper app metadata in `app/layout.tsx`.
-- Install Supabase, Zod, Vitest, and supporting test/setup dependencies.
-- Keep `pnpm lint` and `pnpm build` passing.
-- Update this status file with exact dependency and verification results.
+- Add `.env.example` with Supabase Cloud placeholders and seeded reviewer users.
+- Confirm `.gitignore` excludes local env files and Supabase temp state.
+- Initialize the Supabase project directory once credentials/project-linking are ready.
+- Keep `pnpm lint`, `pnpm typecheck`, and `pnpm build` passing.
