@@ -39,3 +39,4 @@ Use this skill for all Supabase persistence and authorization work. Keep databas
 - Seed/setup path is documented or scripted.
 - RLS behavior is testable by employee and admin roles.
 - Generated DB types match the current schema.
+- `docs/project-status.md` records schema/policy changes, Supabase setup status, verification run, and next database step.

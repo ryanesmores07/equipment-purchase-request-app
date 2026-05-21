@@ -38,3 +38,4 @@ Use this skill to keep business rules independent from Supabase and UI code. The
 - Unit tests cover allowed transitions, rejected transitions, valid inputs, and invalid inputs.
 - No domain function imports Supabase, React, or Next.js.
 - Server action and form code can use the same schemas without duplicating rules.
+- `docs/project-status.md` records domain/validation changes, tests run, and next logic step.

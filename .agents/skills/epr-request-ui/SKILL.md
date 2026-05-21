@@ -40,3 +40,4 @@ Use this skill for the visible workflow. Build only the screens needed for revie
 - Admin can see all requests and approve/reject pending requests.
 - Pages do not overflow on mobile.
 - Build and lint pass after UI work.
+- `docs/project-status.md` records route/UI changes, manual checks, and next UI step.

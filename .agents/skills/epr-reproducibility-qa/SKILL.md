@@ -43,3 +43,4 @@ Use this skill to protect the highest-risk evaluation item: clone, setup, and ru
 - Commands match `package.json`.
 - Missing credentials or external service setup steps are explicit.
 - Final handoff includes repo URL, setup status, and any unverified checks.
+- `docs/project-status.md` records setup, verification, clean-clone, and submission readiness changes.

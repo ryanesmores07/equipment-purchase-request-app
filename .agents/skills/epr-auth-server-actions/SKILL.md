@@ -39,3 +39,4 @@ Use this skill for the boundary between Next.js and Supabase. Keep secrets serve
 - Auth flow works for seeded employee and admin users.
 - Unauthorized users are redirected or denied clearly.
 - Server actions return user-safe validation messages and log unexpected failures.
+- `docs/project-status.md` records auth/action changes, verification run, and next auth or server-action step.

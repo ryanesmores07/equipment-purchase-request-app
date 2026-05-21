@@ -11,6 +11,7 @@
 - Use `docs/superpowers/specs/2026-05-20-equipment-purchase-request-design.md` for design details when present, and verify it before relying on exact schema or route claims.
 - Execute one small batch at a time, verify, then continue. Do not run parallel/asynchronous subagents for implementation unless the user explicitly changes this project rule.
 - Preserve user changes. Check `git status --short` before destructive or broad edits.
+- Keep `docs/project-status.md` updated after every meaningful implementation batch, dependency change, architecture decision, schema change, verification result, GitHub/account change, or blocker.
 
 ## Specialist Rule
 
@@ -37,6 +38,13 @@ You are an expert full-stack web developer focused on producing clear, readable 
 - Use `.agents/skills/epr-auth-server-actions/SKILL.md` for Supabase SSR clients, middleware, auth pages, role guards, and server actions.
 - Use `.agents/skills/epr-request-ui/SKILL.md` for `/requests`, `/requests/new`, `/requests/[id]`, status UI, forms, and admin approve/reject UI.
 - Use `.agents/skills/epr-reproducibility-qa/SKILL.md` for README, `.env.example`, setup scripts, tests, build verification, clean-clone rehearsal, and submission checks.
+
+## Documentation Loop
+
+- Before starting a batch, read `docs/project-status.md` for the current snapshot, decisions, and next step.
+- During work, update the status file when the implementation direction changes or a blocker appears.
+- Before finishing a batch, append a concise Batch Log row with: date, batch name, owner skill, changed files/scope, verification run, and next step.
+- Keep the status file factual and short. Do not use it as a scratchpad.
 
 ## Project Strategy
 
