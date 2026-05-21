@@ -1,0 +1,22 @@
+import { CreateRequestForm } from "@/components/create-request-form";
+import { requireUser } from "@/lib/auth/require-user";
+import { listCategories } from "@/lib/repositories/categories.repo";
+
+export default async function NewRequestPage() {
+  const { supabase } = await requireUser();
+  const categories = await listCategories(supabase);
+
+  return (
+    <section className="grid gap-6">
+      <div>
+        <h1 className="text-2xl font-semibold text-zinc-950">
+          New purchase request
+        </h1>
+        <p className="text-sm text-zinc-600">
+          Submit equipment, software, or learning purchases for review.
+        </p>
+      </div>
+      <CreateRequestForm categories={categories} />
+    </section>
+  );
+}
