@@ -14,9 +14,11 @@ Use this skill to protect the highest-risk evaluation item: clone, setup, and ru
 - Maintain `README.md` with stack choice, setup steps, deep-dive explanation, data management, tradeoffs, and working time.
 - Maintain `.env.example` without secrets.
 - Keep setup commands copy-pasteable for Windows/PowerShell where applicable.
+- Keep setup guidance usable on both the current Windows work PC and the user's Mac.
 - Verify `pnpm build`, lint, unit tests, integration tests when credentials are available.
 - Run a clean-clone rehearsal before final submission when possible.
 - Document known limitations honestly.
+- Review repository hygiene before final submission: no temp files, local-only scripts, credentials, generated output, or unexplained artifacts.
 
 ## README Must Include
 
@@ -44,3 +46,4 @@ Use this skill to protect the highest-risk evaluation item: clone, setup, and ru
 - Missing credentials or external service setup steps are explicit.
 - Final handoff includes repo URL, setup status, and any unverified checks.
 - `docs/project-status.md` records setup, verification, clean-clone, and submission readiness changes.
+- The final repo contents are explainable to an employer reviewer.

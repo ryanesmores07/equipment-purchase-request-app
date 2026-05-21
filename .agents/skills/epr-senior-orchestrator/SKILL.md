@@ -36,6 +36,8 @@ Use `docs/superpowers/specs/2026-05-20-equipment-purchase-request-design.md` for
 - Ask before destructive cleanup, especially removal of scaffold files, dependencies, or generated directories.
 - Keep the deep-dive focused on Design / Business Logic. Do not broaden into CI, notification systems, file attachments, or complex UI unless the user asks.
 - Update `docs/project-status.md` before ending every meaningful batch. Include what changed, the responsible skill, verification results, blockers, and the next recommended step.
+- Before committing, review `git status --short` and exclude temp scripts, local env, machine-specific files, generated output, screenshots, and anything not reviewer-relevant.
+- Keep project-local `.agents/` files portable across the work PC and Mac. Do not add absolute machine-specific paths to skills unless they are already in user-provided context and necessary.
 
 ## Quality Bar
 
@@ -45,3 +47,4 @@ Use `docs/superpowers/specs/2026-05-20-equipment-purchase-request-design.md` for
 - Require explicit loading/error states for route-level data fetching.
 - Leave no TODOs or placeholders in final implementation.
 - Keep project memory factual, compact, and current in `docs/project-status.md`.
+- Keep the repository explainable to a skeptical employer reviewer.

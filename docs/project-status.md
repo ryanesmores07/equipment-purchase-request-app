@@ -28,6 +28,8 @@ This file is the project memory for implementation work. Update it after every m
 - Keep the deep-dive focused on Design / Business Logic.
 - Keep this file updated whenever dependencies, architecture, schema, routes, auth, tests, setup, or submission status changes.
 - Do not push with the global work GitHub account. This repo is configured for personal GitHub only.
+- Keep the repository clean for employer review: commit only files that are necessary, reviewer-relevant, and easy to explain.
+- Support both the current Windows work PC and the user's Mac through committed project config and docs, not local machine state.
 
 ## Decision Log
 
@@ -37,12 +39,14 @@ This file is the project memory for implementation work. Update it after every m
 | 2026-05-21 | Keep work GitHub as global default, but use personal GitHub for this repo. | User wants work account to remain default while this project pushes to `ryanesmores07`. | Done |
 | 2026-05-21 | Use sequential batches, not parallel subagents. | Project plan prioritizes monitored execution and lower coordination risk. | Active |
 | 2026-05-21 | Add project-local EPR specialist skills. | Keeps ownership clear without adding unnecessary process overhead. | Done |
+| 2026-05-21 | Keep project-local agent skills committed, but avoid temp/local clutter. | User will work from Windows and Mac, and employer will review the repo. Skills are portable project workflow docs; temp files and machine state are not. | Active |
 
 ## Batch Log
 
 | Date | Batch | Owner Skill | Changed | Verification | Next |
 |---|---|---|---|---|---|
 | 2026-05-21 | Preparation baseline | `epr-senior-orchestrator` | Added project agent routing, EPR skills, Next.js 15 baseline, personal GitHub repo-local setup. | `pnpm lint`, `pnpm build`, pushed `dev`. | Start Batch 1: clean boilerplate and install core app dependencies. |
+| 2026-05-21 | Repo hygiene and two-PC workflow | `epr-senior-orchestrator` | Added repo cleanliness rules, cross-PC workflow guidance, and stricter ignore rules for env/temp/local files. | `pnpm lint`; hygiene scan found only expected docs references to env/token concepts, no committed secrets. | Commit and push hygiene update, then start Batch 1. |
 
 ## Next Execution Batch
 

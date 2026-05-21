@@ -46,6 +46,22 @@ You are an expert full-stack web developer focused on producing clear, readable 
 - Before finishing a batch, append a concise Batch Log row with: date, batch name, owner skill, changed files/scope, verification run, and next step.
 - Keep the status file factual and short. Do not use it as a scratchpad.
 
+## Repo Hygiene
+
+- Assume the employer will inspect the repository. Keep committed files reviewer-relevant and easy to justify.
+- Commit project-local agent files under `.agents/` and `AGENTS.md` because they document the build workflow and must work on both the work PC and Mac.
+- Do not commit temp scripts, local-only notes, generated build output, caches, credentials, personal machine paths, screenshots, or exploratory files.
+- Keep `.env.example` commit-ready, but never commit `.env`, `.env.local`, Supabase service-role keys, tokens, or machine-specific config.
+- Before every commit, run `git status --short` and review each added file. If a file cannot be explained to a skeptical reviewer, do not commit it.
+- Prefer small commits with clear messages and verified behavior.
+
+## Two-Computer Workflow
+
+- Treat `dev` as the shared working branch between the work PC and Mac.
+- Pull before starting work on either machine, then push after each verified batch.
+- Keep dependencies reproducible through `package.json`, `pnpm-lock.yaml`, and committed project docs, not through local machine state.
+- Do not rely on global GitHub account settings. This repo should stay locally configured for personal GitHub `ryanesmores07`; global defaults may remain the work account.
+
 ## Project Strategy
 
 - The selected deep-dive is Design / Business Logic: extended schema, RLS authorization, audit history, state-machine enforcement, Zod validation, and Vitest coverage.
