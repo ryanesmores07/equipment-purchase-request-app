@@ -52,12 +52,13 @@ This file is the project memory for implementation work. Update it after every m
 | 2026-05-21 | Commit message rule cleanup | `epr-senior-orchestrator` | Removed the old Japanese commit-message prefix rule and replaced it with concise English Conventional Commits-style guidance. | `rg` scan confirmed old prefix is no longer present in repo instructions/docs. `pnpm lint` was not used for this docs-only batch because unrelated dependency changes currently require pnpm build approval for `esbuild`. | Commit only rule/docs changes; keep unrelated app/dependency changes out of this commit. |
 | 2026-05-21 | Batch 1 app baseline and tooling | `epr-reproducibility-qa` | Removed starter page content, set app metadata, installed Supabase/Zod/Vitest/Supabase CLI tooling, added Vitest config and test scripts, approved `esbuild` build scripts in pnpm workspace config. | `pnpm install`, `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm build` all passed. `pnpm test` has no tests yet and exits cleanly with `--passWithNoTests`. | Commit Batch 1, then start Supabase project layout and `.env.example` setup. |
 | 2026-05-21 | Supabase config and env scaffolding | `epr-reproducibility-qa` | Added `.env.example` with placeholder Supabase Cloud credentials and reviewer users, initialized `supabase/config.toml`, added `supabase/seed.sql`, ignored Supabase temp state, added `setup` script and tracked `types/` output directory. | `pnpm exec supabase --version`, `pnpm exec supabase init`, `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm build`; placeholder scan found no real secrets. | Commit config scaffolding, then create first database migrations for profiles/categories/request tables once a Supabase Cloud project is ready to link. |
+| 2026-05-21 | Initial schema, RLS, and audit migration | `epr-database-rls` | Added one initial Supabase migration for `profiles`, `categories`, `purchase_requests`, `approval_history`, category seed rows, RLS policies, grants, status-transition enforcement, auth profile trigger, and approval-history trigger. | `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm build` passed. Migration has not been pushed because no Supabase Cloud project is linked in this session. | Commit migration, then add domain status/validation modules and unit tests before wiring app routes. |
 
 ## Next Execution Batch
 
-Next batch should start database schema work:
+Next batch should add pure TypeScript domain and validation:
 
-- Create the initial Supabase migrations for `profiles`, `categories`, `purchase_requests`, and `approval_history`.
-- Keep seed data idempotent inside migrations where reviewer setup depends on it.
-- Link/push to Supabase Cloud only after real project credentials are available.
+- Implement `lib/domain/status.ts`.
+- Implement `lib/validation/request-schemas.ts`.
+- Add Vitest unit tests for status transitions and validation boundaries.
 - Keep `pnpm lint`, `pnpm typecheck`, `pnpm test`, and `pnpm build` passing.
