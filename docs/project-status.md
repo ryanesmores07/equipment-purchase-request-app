@@ -53,12 +53,13 @@ This file is the project memory for implementation work. Update it after every m
 | 2026-05-21 | Batch 1 app baseline and tooling | `epr-reproducibility-qa` | Removed starter page content, set app metadata, installed Supabase/Zod/Vitest/Supabase CLI tooling, added Vitest config and test scripts, approved `esbuild` build scripts in pnpm workspace config. | `pnpm install`, `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm build` all passed. `pnpm test` has no tests yet and exits cleanly with `--passWithNoTests`. | Commit Batch 1, then start Supabase project layout and `.env.example` setup. |
 | 2026-05-21 | Supabase config and env scaffolding | `epr-reproducibility-qa` | Added `.env.example` with placeholder Supabase Cloud credentials and reviewer users, initialized `supabase/config.toml`, added `supabase/seed.sql`, ignored Supabase temp state, added `setup` script and tracked `types/` output directory. | `pnpm exec supabase --version`, `pnpm exec supabase init`, `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm build`; placeholder scan found no real secrets. | Commit config scaffolding, then create first database migrations for profiles/categories/request tables once a Supabase Cloud project is ready to link. |
 | 2026-05-21 | Initial schema, RLS, and audit migration | `epr-database-rls` | Added one initial Supabase migration for `profiles`, `categories`, `purchase_requests`, `approval_history`, category seed rows, RLS policies, grants, status-transition enforcement, auth profile trigger, and approval-history trigger. | `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm build` passed. Migration has not been pushed because no Supabase Cloud project is linked in this session. | Commit migration, then add domain status/validation modules and unit tests before wiring app routes. |
+| 2026-05-21 | Domain state machine and validation | `epr-domain-validation` | Added pure TypeScript request status transitions, terminal-status helper, Zod create/decision schemas, and unit tests for transition and validation boundaries. | `pnpm lint`, `pnpm typecheck`, `pnpm test` (13 tests), and `pnpm build` passed. | Commit domain/validation layer, then add Supabase server clients and auth helpers. |
 
 ## Next Execution Batch
 
-Next batch should add pure TypeScript domain and validation:
+Next batch should add Supabase auth/server foundation:
 
-- Implement `lib/domain/status.ts`.
-- Implement `lib/validation/request-schemas.ts`.
-- Add Vitest unit tests for status transitions and validation boundaries.
+- Implement `lib/supabase/server.ts` and middleware helpers.
+- Add login/logout server actions and role/user guard helpers.
+- Keep route wiring minimal until database types are generated from the linked Supabase project.
 - Keep `pnpm lint`, `pnpm typecheck`, `pnpm test`, and `pnpm build` passing.
