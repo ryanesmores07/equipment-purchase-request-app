@@ -1,8 +1,10 @@
 # Equipment Purchase Request App Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **Execution mode:** Inline batch execution only. Do not use multiple parallel/asynchronous subagents for this project. Execute one small batch at a time, verify, then continue so the user and Codex can monitor progress clearly.
 
 **Goal:** Build a Next.js + Supabase prototype for an internal equipment purchase request workflow, with a Design / Business Logic deep-dive (extended schema, RLS, audit trigger, Zod validation, Vitest tests).
+
+**Q6 — Effort budget / working style:** Minimize implementation time while still reaching a B+ or better submission. The target is a clean, reproducible, reviewer-friendly prototype, not a maximal build. Start from a clean slate inside the existing git repository: preserve `.git` and the project docs, remove the current app scaffold, install a fresh Next.js app first, then execute the implementation plan in small monitored batches.
 
 **Architecture:** Next.js 15 App Router with RSC for reads and Server Actions for writes. Supabase Postgres holds the data; RLS is the primary authorization mechanism. Domain logic (state machine, validation) lives in pure-TS modules independent of Supabase. Tests cover domain + validation + repository-against-linked-cloud-Supabase.
 
@@ -14,7 +16,7 @@
 
 **Conventions for every task:**
 - Working directory is the repo root unless otherwise noted.
-- Commit after every task with the format `[修正]<message>` (per the user rule).
+- Commit after each coherent batch with the format `[修正]<message>` when the batch is verified.
 - All Supabase CLI commands target the linked Supabase Cloud project (no Docker, no local stack). Linking is established in Task 3.
 - TypeScript is strict; no `any` without comment justifying it.
 
@@ -22,48 +24,57 @@
 
 ## Phase 1 — Project bootstrap
 
-### Task 1: Initialize repo and create GitHub remote
+### Task 1: Clean-slate reset inside the existing git repo
 
 **Files:**
-- Create: `.gitignore` (will be filled by `create-next-app` in Task 2; we initialize git first so all subsequent task commits are tracked)
+- Preserve: `.git/`, `docs/superpowers/specs/2026-05-20-equipment-purchase-request-design.md`, `docs/superpowers/plans/2026-05-20-equipment-purchase-request.md`
+- Remove before scaffolding: current app scaffold and generated dependencies (`app/`, `.next/`, `node_modules/`, `public/`, package/config files, lockfiles)
 
-- [ ] **Step 1: Initialize git in the existing empty workspace**
-
-Run:
-```bash
-git init -b main
-```
-Expected: `Initialized empty Git repository in .../Equipment-Purchase-Request-App/.git/`
-
-- [ ] **Step 2: Configure git identity if not already set**
+- [ ] **Step 1: Confirm current repo state**
 
 Run:
-```bash
-git config user.email | Out-String
-git config user.name | Out-String
+```powershell
+git status --short
+git rev-parse --is-inside-work-tree
 ```
-If empty, prompt the user to confirm the identity to use (do not change global config without confirmation).
+Expected: repository is valid. Review the dirty files before cleanup.
 
-- [ ] **Step 3: Commit the existing spec and plan**
+- [ ] **Step 2: Remove the current scaffold only after explicit confirmation**
+
+Because this is destructive, confirm with the user before running cleanup. Do not remove `.git/` or `docs/`.
+
+Planned cleanup targets:
+```text
+.next/
+node_modules/
+app/
+public/
+package.json
+pnpm-lock.yaml
+pnpm-workspace.yaml
+next-env.d.ts
+next.config.ts
+postcss.config.mjs
+eslint.config.mjs
+tsconfig.json
+```
+
+- [ ] **Step 3: Verify clean slate**
 
 Run:
-```bash
-git add docs/superpowers/specs/2026-05-20-equipment-purchase-request-design.md docs/superpowers/plans/2026-05-20-equipment-purchase-request.md
-git commit -m "[修正]add design spec and implementation plan"
+```powershell
+Get-ChildItem -Force
+git status --short
 ```
+Expected: only `.git/`, docs, and intentional repo metadata remain.
 
-- [ ] **Step 4: Create the public GitHub repo via the user-github MCP**
+- [ ] **Step 4: Commit the clean-slate baseline if useful**
 
-Use the `user-github` MCP tool to create a new PUBLIC repository named `equipment-purchase-request-app` under the authenticated user's account, with description "Internal equipment purchase request prototype — skill-check assignment". Confirm the repo URL is returned.
-
-- [ ] **Step 5: Add the remote and push**
-
-Run:
+If the cleanup produces a meaningful baseline, commit it:
 ```bash
-git remote add origin https://github.com/<owner>/equipment-purchase-request-app.git
-git push -u origin main
+git add -A
+git commit -m "[修正]reset project to clean slate before Next.js scaffold"
 ```
-Expected: branch `main` pushed; remote tracking set.
 
 ---
 
@@ -2938,7 +2949,7 @@ pnpm test:all          # 両方
 
 ## おおよその作業時間
 
-約 6–8 時間 (設計検討、Notion 課題の精読、README 執筆、テスト実装含む)。
+最短実装を優先しつつ、B+以上を狙える品質ラインを維持する。実作業時間は最終提出前に実績ベースで記載する。
 
 ---
 
@@ -2964,7 +2975,7 @@ No Docker required.
 
 **Test users:** `employee@example.com` / `Employee123!`, `admin@example.com` / `Admin123!`.
 
-**Working time:** approximately 6–8 hours including design, README, and tests.
+**Working time:** keep the build as short as practical while preserving B+ or better quality. Record the actual time spent before final submission.
 ````
 
 - [ ] **Step 2: Commit**
@@ -3049,7 +3060,7 @@ Print the final URL: `https://github.com/<owner>/equipment-purchase-request-app`
 
 - [ ] **Step 2: Notify the user**
 
-Tell the user: "Submission ready. Repo: <URL>. README setup verified by clean-clone rehearsal." Ask whether they want me to also produce a short Slack-ready message they can paste to the reviewer (which will include the repo URL, login credentials, and the 6–8h time note).
+Tell the user: "Submission ready. Repo: <URL>. README setup verified by clean-clone rehearsal." Ask whether they want me to also produce a short Slack-ready message they can paste to the reviewer (including repo URL, login credentials, and the final actual working-time note).
 
 ---
 
@@ -3070,8 +3081,8 @@ Verified after writing:
   - §12 Setup → Tasks 6, 7–15, 31
   - §13 YAGNI cuts → reflected by their absence and called out in README (Task 31)
   - §14 Language → Task 31
-  - §15 Orchestration → applied throughout via subagent-driven execution
-  - §16 Deferred decisions → repo name confirmed in Task 1; CI/preview kept out of scope as agreed
+  - §15 Orchestration → applied through inline one-batch-at-a-time execution
+  - §16 Deferred decisions → existing git repo confirmed; CI/preview kept out of scope as agreed
 - **No placeholders**: every step shows the exact file path, exact code, exact command, expected output.
 - **Type consistency**: shared names (`createRequest`, `decideRequest`, `canTransition`, `Status`, `CreateState`, `DecideState`, `RequestWithApplicant`) appear consistently across tasks.
 - **Frequent commits**: every task ends with a commit.
@@ -3080,10 +3091,11 @@ Verified after writing:
 
 ## Execution handoff
 
-Plan complete and saved to `docs/superpowers/plans/2026-05-20-equipment-purchase-request.md`. Two execution options:
+Plan complete and saved to `docs/superpowers/plans/2026-05-20-equipment-purchase-request.md`.
 
-**1. Subagent-Driven (recommended)** — I dispatch a fresh subagent per task, review between tasks, fast iteration.
+Execution choice is locked:
 
-**2. Inline Execution** — Execute tasks in this session using executing-plans, batch execution with checkpoints.
+- **Inline batch execution only** — clean slate first, scaffold Next.js, then execute the plan in small batches with verification checkpoints.
+- **No parallel/asynchronous subagents** — simpler monitoring, easier debugging, and lower coordination overhead.
 
-Pick one when you're ready.
+Next step: confirm the clean-slate cleanup targets in Task 1 before deleting the existing scaffold.

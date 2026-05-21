@@ -1,0 +1,4 @@
+interface:
+  display_name: "EPR Database and RLS"
+  short_description: "Implements Supabase schema, seed data, triggers, and RLS."
+  default_prompt: "Use this skill for Equipment Purchase Request App database, migration, seed, trigger, and RLS work."

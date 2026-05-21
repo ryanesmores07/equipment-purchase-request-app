@@ -1,0 +1,4 @@
+interface:
+  display_name: "EPR Domain Validation"
+  short_description: "Builds domain rules and Zod tests."
+  default_prompt: "Use this skill for Equipment Purchase Request App domain logic, validation, and unit tests."
