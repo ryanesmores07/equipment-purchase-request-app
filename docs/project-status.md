@@ -55,12 +55,13 @@ This file is the project memory for implementation work. Update it after every m
 | 2026-05-21 | Initial schema, RLS, and audit migration | `epr-database-rls` | Added one initial Supabase migration for `profiles`, `categories`, `purchase_requests`, `approval_history`, category seed rows, RLS policies, grants, status-transition enforcement, auth profile trigger, and approval-history trigger. | `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm build` passed. Migration has not been pushed because no Supabase Cloud project is linked in this session. | Commit migration, then add domain status/validation modules and unit tests before wiring app routes. |
 | 2026-05-21 | Domain state machine and validation | `epr-domain-validation` | Added pure TypeScript request status transitions, terminal-status helper, Zod create/decision schemas, and unit tests for transition and validation boundaries. | `pnpm lint`, `pnpm typecheck`, `pnpm test` (13 tests), and `pnpm build` passed. | Commit domain/validation layer, then add Supabase server clients and auth helpers. |
 | 2026-05-21 | Supabase SSR auth foundation | `epr-auth-server-actions` | Added Supabase env helper, browser/server clients, middleware session refresh, login/logout server actions, and `requireUser`/`requireRole` helpers. | `pnpm lint`, `pnpm typecheck`, `pnpm test` (13 tests), and `pnpm build` passed. Build includes middleware. | Commit auth foundation, then add typed repositories and seed-user script after DB types or hand-written row types are available. |
+| 2026-05-21 | Repositories and seed-user script | `epr-auth-server-actions` | Added hand-written row types, repositories for categories/profiles/requests/history, and `supabase/seed-users.ts` for service-role seeded employee/admin accounts. | `pnpm lint`, `pnpm typecheck`, `pnpm test` (13 tests), and `pnpm build` passed. Seed script was not executed because `.env.local` and linked Supabase credentials are not configured in this session. | Commit data access batch, then build request server actions and route pages. |
 
 ## Next Execution Batch
 
-Next batch should add data access and seeding:
+Next batch should build request server actions and first routes:
 
-- Add `supabase/seed-users.ts` using the service-role key from `.env.local`.
-- Add repository modules for profiles, categories, requests, and approval history.
-- Use explicit local row types until `types/supabase.ts` can be generated from a linked Supabase project.
+- Add create/decide request server actions using Zod, domain checks, repositories, and revalidation.
+- Add minimal login page and authenticated shell.
+- Add `/requests` and `/requests/new` route surfaces with loading/error states.
 - Keep `pnpm lint`, `pnpm typecheck`, `pnpm test`, and `pnpm build` passing.
