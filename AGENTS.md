@@ -53,7 +53,9 @@ You are an expert full-stack web developer focused on producing clear, readable 
 - Do not commit temp scripts, local-only notes, generated build output, caches, credentials, personal machine paths, screenshots, or exploratory files.
 - Keep `.env.example` commit-ready, but never commit `.env`, `.env.local`, Supabase service-role keys, tokens, or machine-specific config.
 - Before every commit, run `git status --short` and review each added file. If a file cannot be explained to a skeptical reviewer, do not commit it.
-- Prefer small commits with clear messages and verified behavior.
+- Prefer small commits with clear, English, imperative messages and verified behavior.
+- Use Conventional Commits-style prefixes when useful, for example `chore:`, `feat:`, `fix:`, `docs:`, `test:`, or `refactor:`.
+- Do not use the old Japanese commit-message prefix.
 
 ## Two-Computer Workflow
 

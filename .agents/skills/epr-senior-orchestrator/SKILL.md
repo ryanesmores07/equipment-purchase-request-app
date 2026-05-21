@@ -37,6 +37,7 @@ Use `docs/superpowers/specs/2026-05-20-equipment-purchase-request-design.md` for
 - Keep the deep-dive focused on Design / Business Logic. Do not broaden into CI, notification systems, file attachments, or complex UI unless the user asks.
 - Update `docs/project-status.md` before ending every meaningful batch. Include what changed, the responsible skill, verification results, blockers, and the next recommended step.
 - Before committing, review `git status --short` and exclude temp scripts, local env, machine-specific files, generated output, screenshots, and anything not reviewer-relevant.
+- Use concise English commit messages. Prefer Conventional Commits-style prefixes when useful, and do not use the old Japanese prefix.
 - Keep project-local `.agents/` files portable across the work PC and Mac. Do not add absolute machine-specific paths to skills unless they are already in user-provided context and necessary.
 
 ## Quality Bar

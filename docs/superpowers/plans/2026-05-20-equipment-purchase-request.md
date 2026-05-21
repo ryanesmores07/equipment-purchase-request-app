@@ -16,7 +16,7 @@
 
 **Conventions for every task:**
 - Working directory is the repo root unless otherwise noted.
-- Commit after each coherent batch with the format `[修正]<message>` when the batch is verified.
+- Commit after each coherent verified batch using concise English commit messages. Prefer Conventional Commits-style prefixes when useful, for example `chore:`, `feat:`, `fix:`, `docs:`, `test:`, or `refactor:`.
 - All Supabase CLI commands target the linked Supabase Cloud project (no Docker, no local stack). Linking is established in Task 3.
 - TypeScript is strict; no `any` without comment justifying it.
 
@@ -73,7 +73,7 @@ Expected: only `.git/`, docs, and intentional repo metadata remain.
 If the cleanup produces a meaningful baseline, commit it:
 ```bash
 git add -A
-git commit -m "[修正]reset project to clean slate before Next.js scaffold"
+git commit -m "reset project to clean slate before Next.js scaffold"
 ```
 
 ---
@@ -123,7 +123,7 @@ Expected: PASS.
 Run:
 ```bash
 git add -A
-git commit -m "[修正]scaffold Next.js with TS, Tailwind, ESLint, App Router"
+git commit -m "scaffold Next.js with TS, Tailwind, ESLint, App Router"
 ```
 
 ---
@@ -203,7 +203,7 @@ Expected: completes cleanly. The remote `public` schema is currently empty, so n
 Run:
 ```bash
 git add -A
-git commit -m "[修正]initialize Supabase project layout and link to cloud project"
+git commit -m "initialize Supabase project layout and link to cloud project"
 ```
 
 ---
@@ -234,7 +234,7 @@ This pulls the CLI binary into `node_modules/.bin/supabase`. We deliberately avo
 Run:
 ```bash
 git add package.json pnpm-lock.yaml
-git commit -m "[修正]add @supabase/supabase-js, @supabase/ssr, zod, supabase CLI"
+git commit -m "add @supabase/supabase-js, @supabase/ssr, zod, supabase CLI"
 ```
 
 ---
@@ -328,7 +328,7 @@ Expected: Vitest reports `No test files found`. Exit code 0 or 1 — both accept
 Run:
 ```bash
 git add -A
-git commit -m "[修正]add Vitest, tsx, dotenv-cli, and project scripts"
+git commit -m "add Vitest, tsx, dotenv-cli, and project scripts"
 ```
 
 ---
@@ -383,7 +383,7 @@ Copy-Item .env.example .env.local
 Run:
 ```bash
 git add .env.example
-git commit -m "[修正]add .env.example with local Supabase defaults"
+git commit -m "add .env.example with local Supabase defaults"
 ```
 (`.env.local` is git-ignored.)
 
@@ -472,7 +472,7 @@ Expected: empty diff (schema matches migrations). If there is a diff, fix the mi
 Run:
 ```bash
 git add supabase/migrations
-git commit -m "[修正]add profiles table and auth.users insert trigger"
+git commit -m "add profiles table and auth.users insert trigger"
 ```
 
 ---
@@ -532,7 +532,7 @@ Expected: `5`. (You can also write a one-off `tsx` script using `@supabase/supab
 Run:
 ```bash
 git add -A
-git commit -m "[修正]add categories table with idempotent seed rows"
+git commit -m "add categories table with idempotent seed rows"
 ```
 
 ---
@@ -598,7 +598,7 @@ Expected: empty diff.
 Run:
 ```bash
 git add -A
-git commit -m "[修正]add purchase_requests table with constraints and indexes"
+git commit -m "add purchase_requests table with constraints and indexes"
 ```
 
 ---
@@ -647,7 +647,7 @@ Expected: empty diff.
 Run:
 ```bash
 git add -A
-git commit -m "[修正]add approval_history audit table"
+git commit -m "add approval_history audit table"
 ```
 
 ---
@@ -730,7 +730,7 @@ If the trigger does NOT raise on the illegal transition, the migration didn't pu
 Run:
 ```bash
 git add -A
-git commit -m "[修正]add status transition trigger"
+git commit -m "add status transition trigger"
 ```
 
 ---
@@ -786,7 +786,7 @@ Expected: empty diff.
 Run:
 ```bash
 git add -A
-git commit -m "[修正]add approval_history write trigger"
+git commit -m "add approval_history write trigger"
 ```
 
 ---
@@ -887,7 +887,7 @@ Expected: empty diff.
 Run:
 ```bash
 git add -A
-git commit -m "[修正]enable RLS and add policies for all tables"
+git commit -m "enable RLS and add policies for all tables"
 ```
 
 ---
@@ -1000,7 +1000,7 @@ Expected: one row with `role='admin'`, one with `role='employee'`.
 Run:
 ```bash
 git add -A
-git commit -m "[修正]add seed-users script for employee+admin"
+git commit -m "add seed-users script for employee+admin"
 ```
 
 ---
@@ -1031,7 +1031,7 @@ Expected: PASS.
 Run:
 ```bash
 git add types/supabase.ts package.json
-git commit -m "[修正]generate Supabase TS types from local schema"
+git commit -m "generate Supabase TS types from local schema"
 ```
 
 ---
@@ -1112,7 +1112,7 @@ Expected: 6 passing tests.
 Run:
 ```bash
 git add lib/domain/status.ts tests/domain/status.test.ts
-git commit -m "[修正]add status state machine with tests"
+git commit -m "add status state machine with tests"
 ```
 
 ---
@@ -1254,7 +1254,7 @@ Expected: 11 passing tests (6 from Task 16 plus 11 new).
 Run:
 ```bash
 git add lib/validation/request-schemas.ts tests/validation/request-schemas.test.ts
-git commit -m "[修正]add Zod schemas for create and decide actions"
+git commit -m "add Zod schemas for create and decide actions"
 ```
 
 ---
@@ -1373,7 +1373,7 @@ Expected: PASS.
 Run:
 ```bash
 git add lib/supabase middleware.ts
-git commit -m "[修正]add Supabase server/browser clients and session middleware"
+git commit -m "add Supabase server/browser clients and session middleware"
 ```
 
 ---
@@ -1452,7 +1452,7 @@ Expected: PASS.
 Run:
 ```bash
 git add lib/auth
-git commit -m "[修正]add requireUser and requireRole helpers"
+git commit -m "add requireUser and requireRole helpers"
 ```
 
 ---
@@ -1501,7 +1501,7 @@ Expected: PASS.
 Run:
 ```bash
 git add -A
-git commit -m "[修正]install shadcn/ui base components"
+git commit -m "install shadcn/ui base components"
 ```
 
 ---
@@ -1623,7 +1623,7 @@ In a browser, visit `http://localhost:3000/login`, log in as `employee@example.c
 Run:
 ```bash
 git add app/(auth)
-git commit -m "[修正]add login page, form, and server action"
+git commit -m "add login page, form, and server action"
 ```
 
 ---
@@ -1743,7 +1743,7 @@ Expected: PASS.
 Run:
 ```bash
 git add -A
-git commit -m "[修正]add authenticated shell layout with header and logout"
+git commit -m "add authenticated shell layout with header and logout"
 ```
 
 ---
@@ -1866,7 +1866,7 @@ Expected: PASS.
 Run:
 ```bash
 git add lib/repositories
-git commit -m "[修正]add requests repository (list/get/create/decide)"
+git commit -m "add requests repository (list/get/create/decide)"
 ```
 
 ---
@@ -2046,7 +2046,7 @@ Expected: 4 passing tests. Tests run against the linked Supabase Cloud project; 
 Run:
 ```bash
 git add tests
-git commit -m "[修正]add integration tests for requests repository (RLS+trigger)"
+git commit -m "add integration tests for requests repository (RLS+trigger)"
 ```
 
 ---
@@ -2225,7 +2225,7 @@ Then `pnpm dev`, log in as each seeded user, visit `/requests`. Expected:
 Run:
 ```bash
 git add app/(app)/requests
-git commit -m "[修正]add /requests list page with role-aware filtering"
+git commit -m "add /requests list page with role-aware filtering"
 ```
 
 ---
@@ -2385,7 +2385,7 @@ Log in as `employee@example.com`, create a request, expect a redirect to its det
 Run:
 ```bash
 git add app/(app)/requests/new
-git commit -m "[修正]add /requests/new create form and server action"
+git commit -m "add /requests/new create form and server action"
 ```
 
 ---
@@ -2532,7 +2532,7 @@ Expected: PASS. Visit a request detail page in `pnpm dev` to confirm it renders.
 Run:
 ```bash
 git add -A
-git commit -m "[修正]add /requests/[id] detail page with history timeline"
+git commit -m "add /requests/[id] detail page with history timeline"
 ```
 
 ---
@@ -2700,7 +2700,7 @@ Run `pnpm dev`. As employee, create a request. Log out, log in as admin, approve
 Run:
 ```bash
 git add -A
-git commit -m "[修正]add admin approve/reject panel with confirmation dialog"
+git commit -m "add admin approve/reject panel with confirmation dialog"
 ```
 
 ---
@@ -2770,7 +2770,7 @@ Expected: PASS.
 Run:
 ```bash
 git add -A
-git commit -m "[修正]add error boundary and loading skeletons"
+git commit -m "add error boundary and loading skeletons"
 ```
 
 ---
@@ -2807,7 +2807,7 @@ Expected: PASS. Visiting `/` redirects to `/login` (logged out) or `/requests` (
 Run:
 ```bash
 git add app/page.tsx
-git commit -m "[修正]redirect root to /requests or /login based on session"
+git commit -m "redirect root to /requests or /login based on session"
 ```
 
 ---
@@ -2983,7 +2983,7 @@ No Docker required.
 Run:
 ```bash
 git add README.md
-git commit -m "[修正]add README (Japanese primary + English summary)"
+git commit -m "add README (Japanese primary + English summary)"
 ```
 
 ---
@@ -3044,7 +3044,7 @@ Run:
 ```bash
 git status
 git add -A
-git commit -m "[修正]post-rehearsal fixes"
+git commit -m "post-rehearsal fixes"
 git push
 ```
 
