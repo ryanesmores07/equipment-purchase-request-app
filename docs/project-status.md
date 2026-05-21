@@ -58,13 +58,13 @@ This file is the project memory for implementation work. Update it after every m
 | 2026-05-21 | Repositories and seed-user script | `epr-auth-server-actions` | Added hand-written row types, repositories for categories/profiles/requests/history, and `supabase/seed-users.ts` for service-role seeded employee/admin accounts. | `pnpm lint`, `pnpm typecheck`, `pnpm test` (13 tests), and `pnpm build` passed. Seed script was not executed because `.env.local` and linked Supabase credentials are not configured in this session. | Commit data access batch, then build request server actions and route pages. |
 | 2026-05-21 | First request workflow UI | `epr-request-ui` | Added login page/form, authenticated shell, root redirect, request list, create request form, detail page, admin approval panel, loading states, and request server actions. | `pnpm lint`, `pnpm typecheck`, `pnpm test` (13 tests), and `pnpm build` passed. A stale `.next` cache caused one transient build page-data error and was fixed by deleting generated `.next` and rebuilding. Browser walkthrough not run because Supabase Cloud credentials are not configured. | Commit UI workflow, then link Supabase Cloud, push migrations, seed users, generate DB types, and run a live walkthrough. |
 | 2026-05-21 | Live Supabase cloud verification | `epr-database-rls` + `epr-auth-server-actions` + `epr-request-ui` | Configured Supabase MCP, installed Supabase agent skills, applied cloud migrations, added function/RLS hardening migration, generated `types/supabase.ts`, seeded employee/admin accounts, and kept server-action initial state out of `"use server"` modules. | Supabase security advisors clean; performance advisors only reported fresh-database unused-index info. `pnpm lint`, `pnpm typecheck`, `pnpm test` (13 tests), `pnpm build`, browser employee create flow, browser admin approval flow, and SQL audit-history check passed. | Commit live Supabase verification batch, then update README/setup handoff and prepare final reviewer instructions. |
+| 2026-05-21 | Reproducibility handoff docs | `epr-reproducibility-qa` | Replaced starter README with setup, Supabase Cloud, reviewer user, data model, deep-dive, verification, known-limit, and handoff details. Clarified `.env.example` setup comments. | `pnpm lint`, `pnpm typecheck`, `pnpm test` (13 tests), and `pnpm build` passed. | Review diff, commit handoff docs, then run clean-clone rehearsal or final submission check. |
 
 ## Next Execution Batch
 
-Next batch should focus on reproducibility and handoff:
+Next batch should focus on final submission readiness:
 
-- Update README setup and reviewer credentials.
-- Confirm `.env.example` matches the live setup path without exposing secrets.
-- Re-run `pnpm lint`, `pnpm typecheck`, `pnpm test`, and `pnpm build` after docs/setup edits.
 - Review `git status --short` for only reviewer-relevant files.
-- Keep `pnpm lint`, `pnpm typecheck`, `pnpm test`, and `pnpm build` passing.
+- Commit the handoff documentation batch.
+- Optionally run a clean-clone rehearsal from the README only.
+- Keep `pnpm lint`, `pnpm typecheck`, `pnpm test`, and `pnpm build` passing before final submission.
