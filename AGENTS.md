@@ -66,7 +66,8 @@ You are an expert full-stack web developer focused on producing clear, readable 
 
 ## Project Strategy
 
-- The selected deep-dive is Design / Business Logic: extended schema, RLS authorization, audit history, state-machine enforcement, Zod validation, and Vitest coverage.
+- The selected deep-dive is UI/UX and front-end development: clean request workflows, accessible forms, responsive layouts, clear status/approval states, route-level loading/error states, and reviewer-friendly interaction design.
+- Keep the existing Supabase schema, RLS authorization, audit history, state-machine enforcement, Zod validation, and Vitest coverage as supporting architecture, not the primary showcase.
 - Environment reproducibility is a top evaluation risk. Treat README setup, `.env.example`, migrations, seed data, and verification scripts as required deliverables.
-- UI should be clean and functional, but do not spend time on decorative polish that does not improve reviewer evaluation.
+- Prioritize front-end improvements that make the workflow easier to understand and verify. Avoid decorative polish that does not improve reviewer evaluation.
 - Keep implementation reviewer-friendly: readable names, thin modules, clear responsibility boundaries, and minimal hidden magic.

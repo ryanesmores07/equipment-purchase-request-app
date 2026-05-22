@@ -34,7 +34,7 @@ Use `docs/superpowers/specs/2026-05-20-equipment-purchase-request-design.md` for
 - Verify after each batch with the cheapest meaningful command first.
 - Do not use parallel/asynchronous implementation subagents; the project plan explicitly chooses monitored inline execution.
 - Ask before destructive cleanup, especially removal of scaffold files, dependencies, or generated directories.
-- Keep the deep-dive focused on Design / Business Logic. Do not broaden into CI, notification systems, file attachments, or complex UI unless the user asks.
+- Keep the deep-dive focused on UI/UX and front-end development. Do not broaden into CI, notification systems, file attachments, or unrelated backend depth unless the user asks.
 - Update `docs/project-status.md` before ending every meaningful batch. Include what changed, the responsible skill, verification results, blockers, and the next recommended step.
 - Before committing, review `git status --short` and exclude temp scripts, local env, machine-specific files, generated output, screenshots, and anything not reviewer-relevant.
 - Use concise English commit messages. Prefer Conventional Commits-style prefixes when useful, and do not use the old Japanese prefix.

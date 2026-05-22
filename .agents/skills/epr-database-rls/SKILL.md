@@ -7,7 +7,7 @@ description: Supabase database specialist for the Equipment Purchase Request App
 
 ## Overview
 
-Use this skill for all Supabase persistence and authorization work. Keep database work reproducible from a fresh clone and aligned with the Design / Business Logic deep-dive.
+Use this skill for all Supabase persistence and authorization work. Keep database work reproducible from a fresh clone and supportive of the UI/UX and front-end development deep-dive.
 
 ## Responsibilities
 

@@ -3,7 +3,7 @@
 **Date:** 2026-05-20
 **Status:** Approved (pending user file review)
 **Source assignment:** [スキルチェック課題 - Webエンジニア](https://www.notion.so/Web-3664c366b0548085b672e7a89dbdc866)
-**Deep-dive area:** Design / Business Logic
+**Deep-dive area:** UI/UX and front-end development
 **Effort budget:** ~6–8 hours
 
 ---
@@ -16,7 +16,7 @@ Build a prototype internal "Equipment Purchase Request" web app where:
 
 The deliverable is a public GitHub repository that a reviewer can clone, set up by following the README, and run locally without friction.
 
-The submission is scored on environment reproducibility, design intent, code readability, depth in the chosen strength area, and prioritization. Our strength area is **Design / Business Logic**, so the schema, authorization (RLS), validation, domain layer, and tests are the showcase. UI and infrastructure are kept simple-but-correct.
+The submission is scored on environment reproducibility, design intent, code readability, depth in the chosen strength area, and prioritization. Our strength area is **UI/UX and front-end development**, so the request creation, list, detail, approval, status, loading/error, responsive, and accessibility flows are the showcase. The schema, authorization (RLS), validation, domain layer, and tests remain supporting architecture.
 
 ---
 
@@ -29,21 +29,11 @@ The submission is scored on environment reproducibility, design intent, code rea
 | Styling | Tailwind CSS | Default in `create-next-app` |
 | UI components | shadcn/ui (selective install only) | Components are copied into repo (no opaque dependency); used for forms, dialog, toast, badge, table |
 | Lint | ESLint (Next.js default config) | Default in `create-next-app` |
-| Database | Supabase Cloud (free tier) — managed Postgres + Auth + RLS | Postgres + Auth + RLS in one tool; matches deep-dive area. Work machine constraints made a local Docker stack impractical, so we use Supabase Cloud throughout. The Supabase CLI is used to apply migrations to the linked cloud project (`supabase db push`), not to run a local stack. |
+| Database | Supabase Cloud (free tier) — managed Postgres + Auth + RLS | Postgres + Auth + RLS in one tool; supports the front-end workflow with real auth and row-level permissions. Work machine constraints made a local Docker stack impractical, so we use Supabase Cloud throughout. The Supabase CLI is used to apply migrations to the linked cloud project (`supabase db push`), not to run a local stack. |
 | Auth | Supabase Auth (email + password) | Integrates with RLS via `auth.uid()` |
 | Validation | Zod | Single source of truth for forms, server actions, and domain; called out in the rubric ("バリデーション設計") |
 | Tests | Vitest + `@vitest/coverage-v8` | Industry standard for Vite/Next ecosystems; rubric explicitly lists test code |
 | Package manager | pnpm | Lockfile committed for reproducibility |
-
-**Explicitly NOT used** (with reason):
-- Prisma/Drizzle — Supabase migrations + generated types are sufficient; no ORM needed.
-- shadcn/ui beyond the listed components — YAGNI.
-- Biome — ESLint is already the default; no reason to swap.
-- pino / external logger — `console.error` with a structured object is enough for this scope.
-- NextAuth/Auth.js/Lucia — Supabase Auth already covers it.
-- Playwright/Cypress — out of budget; Vitest integration tests cover the critical paths.
-- Storybook — not deep-diving on UI.
-- Tanstack Query — RSC + Server Actions handle data flow.
 
 ---
 
@@ -202,7 +192,7 @@ This is duplicated in `lib/domain/status.ts` for defense in depth and for user-f
 
 ---
 
-## 6. Authorization (RLS — the deep-dive showcase)
+## 6. Authorization (RLS — supporting architecture)
 
 RLS is enabled on every table. The `authenticated` role has no direct privileges except what RLS grants.
 

@@ -2,11 +2,11 @@
 
 > **Execution mode:** Inline batch execution only. Do not use multiple parallel/asynchronous subagents for this project. Execute one small batch at a time, verify, then continue so the user and Codex can monitor progress clearly.
 
-**Goal:** Build a Next.js + Supabase prototype for an internal equipment purchase request workflow, with a Design / Business Logic deep-dive (extended schema, RLS, audit trigger, Zod validation, Vitest tests).
+**Goal:** Build a Next.js + Supabase prototype for an internal equipment purchase request workflow, with a UI/UX and front-end development deep-dive (clear request flows, accessible forms, responsive layouts, status clarity, approval interactions, loading/error states, and reviewer-friendly UI structure).
 
 **Q6 — Effort budget / working style:** Minimize implementation time while still reaching a B+ or better submission. The target is a clean, reproducible, reviewer-friendly prototype, not a maximal build. Start from a clean slate inside the existing git repository: preserve `.git` and the project docs, remove the current app scaffold, install a fresh Next.js app first, then execute the implementation plan in small monitored batches.
 
-**Architecture:** Next.js 15 App Router with RSC for reads and Server Actions for writes. Supabase Postgres holds the data; RLS is the primary authorization mechanism. Domain logic (state machine, validation) lives in pure-TS modules independent of Supabase. Tests cover domain + validation + repository-against-linked-cloud-Supabase.
+**Architecture:** Next.js 15 App Router with RSC for reads and Server Actions for writes. Supabase Postgres holds the data; RLS is the primary authorization mechanism. Domain logic (state machine, validation) lives in pure-TS modules independent of Supabase. Tests cover domain + validation + repository-against-linked-cloud-Supabase. The front-end showcase is the reviewer-facing request workflow built on top of that foundation.
 
 **Tech Stack:** Next.js (latest stable) + TypeScript (strict) + Tailwind + ESLint + shadcn/ui (selective) + Supabase Cloud (free tier) + Supabase CLI (project-local dev dep, used for migrations against the linked cloud project) + `@supabase/supabase-js` + `@supabase/ssr` + Zod + Vitest + pnpm.
 
@@ -2959,7 +2959,7 @@ A Next.js 15 + Supabase prototype for an internal equipment purchase request wor
 
 **Stack:** Next.js (App Router, RSC) · TypeScript (strict) · Supabase (Postgres + Auth + RLS) · Tailwind · shadcn/ui (selective) · Zod · Vitest · pnpm.
 
-**Deep-dive area:** Design / Business Logic — extended schema (profiles, categories, audit history), DB-enforced state machine and audit trigger, RLS as the primary authorization layer, server-side `requireRole` as defense in depth, shared Zod schemas between forms / server actions / domain, Vitest unit + integration tests against the local Supabase stack.
+**Deep-dive area:** UI/UX and front-end development — clear request creation, list, detail, approval, status, loading/error, responsive, and accessibility flows. The extended schema, RLS, audit history, state-machine enforcement, Zod validation, and tests remain supporting architecture for the front-end workflow.
 
 **Setup:** see the Japanese section above for details. Summary:
 1. Create a free Supabase Cloud project at https://supabase.com (~3 min including provisioning).

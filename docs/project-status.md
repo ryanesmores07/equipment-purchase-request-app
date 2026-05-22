@@ -65,12 +65,14 @@ This file is the project memory for implementation work. Update it after every m
 | 2026-05-22 | Deep-dive repositioning | `epr-senior-orchestrator` + `epr-request-ui` | Updated project strategy, README, plan/spec, and local skill routing from Design / Business Logic to UI/UX and front-end development. Existing backend/domain work is now framed as supporting architecture. | Docs-only change; searched project instructions/status/plan/spec/skills for old deep-dive wording. | Prioritize a final UI/UX walkthrough before submission. |
 | 2026-05-22 | Spec noise cleanup | `epr-senior-orchestrator` | Removed the speculative "Explicitly NOT used" tool list from the design spec because no checked-in requirement asks for that list. Kept practical README known limits. | `rg` search found no requirement for unused-tool justifications; docs-only change. | Keep submission/handoff focused on implemented UI/UX strengths and real known limits. |
 | 2026-05-22 | Japanese-first README | `epr-reproducibility-qa` | Reworked `README.md` to put Japanese setup, reviewer credentials, walkthrough, verification, known limits, and UI/UX deep-dive first, with a compact English summary after. | Docs-only change; checked README against `.env.example` and `package.json` scripts. | Run final README scan and keep submission message Japanese-friendly. |
+| 2026-05-22 | UI polish plan handoff | `epr-senior-orchestrator` | Added `docs/superpowers/plans/2026-05-22-ui-polish-batch.md` for the next UI/UX batch (Japanese copy, admin filters, approval UX). Staged related deep-dive doc/skill wording updates for cross-machine work on `dev`. | Docs-only; plan not implemented yet. | Pull `dev` on the other machine and execute the UI polish plan batch. |
 
 ## Next Execution Batch
 
-Submission only:
+UI/UX polish (plan: `docs/superpowers/plans/2026-05-22-ui-polish-batch.md`):
 
-- Submit repo URL `https://github.com/ryanesmores07/equipment-purchase-request-app` (branch `dev`) per assignment instructions.
-- Include README setup summary and seeded reviewer credentials from `.env.example`.
-- In submission wording, present the selected strength area as UI/UX and front-end development.
+- Pull latest `dev` before starting on the other computer.
+- Implement Japanese-first UI copy, admin status filter, applicant column, and approval UX improvements per the plan.
+- Verify with `pnpm lint`, `pnpm typecheck`, `pnpm test`, and `pnpm build`.
+- Update this status file after the batch; submit only after the UI polish walkthrough is done.
 - Never commit `.env.local` or Supabase secrets.

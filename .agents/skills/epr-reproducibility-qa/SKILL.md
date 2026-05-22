@@ -26,7 +26,7 @@ Use this skill to protect the highest-risk evaluation item: clone, setup, and ru
 - Setup from clone to running app.
 - Required environment variables and where to get them.
 - Data model / table explanation / ER summary.
-- Deep-dive area: Design / Business Logic.
+- Deep-dive area: UI/UX and front-end development.
 - What was intentionally left out due to time.
 - Approximate actual working time.
 - Test users and reviewer workflow.
