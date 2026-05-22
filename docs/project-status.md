@@ -26,7 +26,7 @@ This file is the project memory for implementation work. Update it after every m
 - Execute one small batch at a time.
 - Use `.agents/skills/epr-senior-orchestrator/SKILL.md` before non-trivial work.
 - Route specialist work through the relevant `.agents/skills/epr-*` skill.
-- Keep the deep-dive focused on Design / Business Logic.
+- Keep the deep-dive focused on UI/UX and front-end development.
 - Keep this file updated whenever dependencies, architecture, schema, routes, auth, tests, setup, or submission status changes.
 - Do not push with the global work GitHub account. This repo is configured for personal GitHub only.
 - Keep the repository clean for employer review: commit only files that are necessary, reviewer-relevant, and easy to explain.
@@ -42,6 +42,7 @@ This file is the project memory for implementation work. Update it after every m
 | 2026-05-21 | Add project-local EPR specialist skills. | Keeps ownership clear without adding unnecessary process overhead. | Done |
 | 2026-05-21 | Keep project-local agent skills committed, but avoid temp/local clutter. | User will work from Windows and Mac, and employer will review the repo. Skills are portable project workflow docs; temp files and machine state are not. | Active |
 | 2026-05-21 | Use standard English commit messages instead of the old Japanese prefix. | User wants employer-review-friendly commit history and no unexplained prefix in future commits. | Active |
+| 2026-05-22 | Change selected deep-dive to UI/UX and front-end development. | User wants the "area of expertise" emphasis to be UI/UX/front-end instead of Design / Business Logic. Existing Supabase/RLS/domain work remains supporting architecture. | Active |
 
 ## Batch Log
 
@@ -59,12 +60,17 @@ This file is the project memory for implementation work. Update it after every m
 | 2026-05-21 | First request workflow UI | `epr-request-ui` | Added login page/form, authenticated shell, root redirect, request list, create request form, detail page, admin approval panel, loading states, and request server actions. | `pnpm lint`, `pnpm typecheck`, `pnpm test` (13 tests), and `pnpm build` passed. A stale `.next` cache caused one transient build page-data error and was fixed by deleting generated `.next` and rebuilding. Browser walkthrough not run because Supabase Cloud credentials are not configured. | Commit UI workflow, then link Supabase Cloud, push migrations, seed users, generate DB types, and run a live walkthrough. |
 | 2026-05-21 | Live Supabase cloud verification | `epr-database-rls` + `epr-auth-server-actions` + `epr-request-ui` | Configured Supabase MCP, installed Supabase agent skills, applied cloud migrations, added function/RLS hardening migration, generated `types/supabase.ts`, seeded employee/admin accounts, and kept server-action initial state out of `"use server"` modules. | Supabase security advisors clean; performance advisors only reported fresh-database unused-index info. `pnpm lint`, `pnpm typecheck`, `pnpm test` (13 tests), `pnpm build`, browser employee create flow, browser admin approval flow, and SQL audit-history check passed. | Commit live Supabase verification batch, then update README/setup handoff and prepare final reviewer instructions. |
 | 2026-05-21 | Reproducibility handoff docs | `epr-reproducibility-qa` | Replaced starter README with setup, Supabase Cloud, reviewer user, data model, deep-dive, verification, known-limit, and handoff details. Clarified `.env.example` setup comments. | `pnpm lint`, `pnpm typecheck`, `pnpm test` (13 tests), and `pnpm build` passed. | Review diff, commit handoff docs, then run clean-clone rehearsal or final submission check. |
+| 2026-05-22 | User clean-clone / local setup rehearsal | `epr-reproducibility-qa` | User linked Supabase project `whtyguvatkosipecrbcn`, pushed migrations, fixed `.env.local` credentials, and completed `pnpm setup` (seed users + generated types). | Terminal: final `pnpm setup` exit 0; `git status` clean on `dev`. | Record working time in README, commit project status, then submit. |
+| 2026-05-22 | Submission prep docs | `epr-reproducibility-qa` | Recorded ~6 hours working time in README (Japanese + English summary) and updated project status for completed local setup rehearsal. | Docs-only change. | Submit assignment with repo URL and reviewer handoff message. |
+| 2026-05-22 | Deep-dive repositioning | `epr-senior-orchestrator` + `epr-request-ui` | Updated project strategy, README, plan/spec, and local skill routing from Design / Business Logic to UI/UX and front-end development. Existing backend/domain work is now framed as supporting architecture. | Docs-only change; searched project instructions/status/plan/spec/skills for old deep-dive wording. | Prioritize a final UI/UX walkthrough before submission. |
+| 2026-05-22 | Spec noise cleanup | `epr-senior-orchestrator` | Removed the speculative "Explicitly NOT used" tool list from the design spec because no checked-in requirement asks for that list. Kept practical README known limits. | `rg` search found no requirement for unused-tool justifications; docs-only change. | Keep submission/handoff focused on implemented UI/UX strengths and real known limits. |
+| 2026-05-22 | Japanese-first README | `epr-reproducibility-qa` | Reworked `README.md` to put Japanese setup, reviewer credentials, walkthrough, verification, known limits, and UI/UX deep-dive first, with a compact English summary after. | Docs-only change; checked README against `.env.example` and `package.json` scripts. | Run final README scan and keep submission message Japanese-friendly. |
 
 ## Next Execution Batch
 
-Next batch should focus on final submission readiness:
+Submission only:
 
-- Review `git status --short` for only reviewer-relevant files.
-- Commit the handoff documentation batch.
-- Optionally run a clean-clone rehearsal from the README only.
-- Keep `pnpm lint`, `pnpm typecheck`, `pnpm test`, and `pnpm build` passing before final submission.
+- Submit repo URL `https://github.com/ryanesmores07/equipment-purchase-request-app` (branch `dev`) per assignment instructions.
+- Include README setup summary and seeded reviewer credentials from `.env.example`.
+- In submission wording, present the selected strength area as UI/UX and front-end development.
+- Never commit `.env.local` or Supabase secrets.

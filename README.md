@@ -1,37 +1,43 @@
 # Equipment Purchase Request App
 
-A Next.js 15 + Supabase prototype for an internal equipment purchase request workflow.
+Next.js 15 + Supabase で作成した、社内備品購入申請のプロトタイプです。
 
-Employees can submit equipment, software, or learning purchase requests. Admins can review all requests, approve or reject pending requests, and see the approval history.
+社員は備品・ソフトウェア・学習教材などの購入申請を作成できます。管理者は全申請を確認し、未承認の申請を承認または却下できます。申請詳細では承認履歴も確認できます。
 
-## Stack
+## 技術スタック
 
-- Next.js `15.5.18` App Router with React Server Components for reads and Server Actions for writes.
-- Supabase Cloud for Auth, Postgres, Row Level Security, migrations, and generated database types.
-- TypeScript, Tailwind CSS, ESLint, Zod, Vitest, and pnpm.
+- Next.js `15.5.18` App Router
+- React Server Components によるサーバー側データ取得
+- Server Actions によるフォーム送信・更新処理
+- Supabase Cloud: Auth、Postgres、Row Level Security、マイグレーション、型生成
+- TypeScript、Tailwind CSS、ESLint、Zod、Vitest、pnpm
 
-This stack keeps the prototype close to production patterns while staying simple to clone and review. Supabase Cloud is used instead of a local Docker stack so reviewers only need a free Supabase project and the documented environment variables.
+Supabase Cloud を使うため、ローカル Docker は不要です。レビュアーは無料の Supabase プロジェクトと `.env.local` を用意すれば動作確認できます。
 
-## Deep Dive
+## 重点領域
 
-The selected deep-dive area is **Design / Business Logic**.
+選択した重点領域は **UI/UX とフロントエンド開発** です。
 
-Implemented focus areas:
+主な実装内容:
 
-- Database schema for profiles, categories, purchase requests, and approval history.
-- RLS policies that let employees see only their own requests while admins can review all requests.
-- Database triggers that enforce one-way status transitions and write approval audit history.
-- Pure TypeScript status transition helpers and Zod validation schemas.
-- Unit tests for status transitions and validation boundaries.
+- ログイン、申請一覧、申請作成、申請詳細、管理者承認パネルまでの一連の申請フロー
+- `pending`、`approved`、`rejected` の状態が分かりやすい表示
+- 申請詳細での承認履歴表示
+- 入力項目に近い位置でのバリデーションエラー表示
+- レスポンシブな画面レイアウト
+- ルート単位の loading / error 状態
+- Supabase RLS による社員・管理者の表示範囲制御
+- Zod と TypeScript による入力検証・状態遷移チェック
+- Vitest による状態遷移とバリデーションのユニットテスト
 
-## Data Model
+## データモデル
 
-- `profiles`: one row per Supabase Auth user, with `employee` or `admin` role.
-- `categories`: seeded request categories.
-- `purchase_requests`: immutable request details plus `pending`, `approved`, or `rejected` decision state.
-- `approval_history`: append-only audit rows written when an admin changes request status.
+- `profiles`: Supabase Auth ユーザーに紐づくプロフィール。`employee` または `admin` ロールを持ちます。
+- `categories`: 申請カテゴリ。
+- `purchase_requests`: 申請内容と `pending` / `approved` / `rejected` の承認状態。
+- `approval_history`: 管理者が状態を変更したときに追加される監査履歴。
 
-Request transitions are intentionally small:
+状態遷移はシンプルにしています。
 
 ```text
 pending -> approved
@@ -40,91 +46,91 @@ approved -> terminal
 rejected -> terminal
 ```
 
-Rejected requests require a decision note. Request details cannot be edited after creation.
+却下時は理由の入力が必須です。作成済みの申請内容は編集不可です。
 
-## Setup
+## セットアップ
 
-Prerequisites:
+必要なもの:
 
-- Node.js 20+
+- Node.js 20 以上
 - pnpm
-- A free Supabase Cloud project
+- 無料の Supabase Cloud プロジェクト
 
-Install dependencies:
+依存関係をインストールします。
 
 ```bash
 pnpm install
 ```
 
-Create a local environment file:
+環境変数ファイルを作成します。
 
 ```bash
 cp .env.example .env.local
 ```
 
-On Windows PowerShell:
+Windows PowerShell の場合:
 
 ```powershell
 Copy-Item .env.example .env.local
 ```
 
-Fill in `.env.local` with values from Supabase:
+`.env.local` に Supabase の値を設定します。
 
 - `NEXT_PUBLIC_SUPABASE_URL`: Project Settings > API > Project URL
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY`: Project Settings > API > anon public key
 - `SUPABASE_SERVICE_ROLE_KEY`: Project Settings > API > service_role key
 - `SUPABASE_PROJECT_REF`: Project Settings > General > Reference ID
 
-Keep `SUPABASE_SERVICE_ROLE_KEY` only in `.env.local`. Never commit it.
+`SUPABASE_SERVICE_ROLE_KEY` は `.env.local` のみに保存してください。Git にコミットしないでください。
 
-Log in to Supabase, link the project, push migrations, seed reviewer users, and generate DB types:
+Supabase にログインし、プロジェクトをリンクして、マイグレーション・レビュアーユーザー作成・型生成を実行します。
 
 ```bash
 pnpm setup
 ```
 
-`supabase link` is interactive. When prompted, choose the Supabase project or enter the project ref and database password.
+`supabase link` は対話形式です。表示に従って Supabase プロジェクトを選択するか、Project Ref とデータベースパスワードを入力してください。
 
-Start the app:
+開発サーバーを起動します。
 
 ```bash
 pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+[http://localhost:3000](http://localhost:3000) を開きます。
 
-## Reviewer Users
+## レビュアーユーザー
 
-The seed script reads these values from `.env.local`. The defaults in `.env.example` are safe placeholders and can be used for a reviewer project:
+シードスクリプトは `.env.local` の値を読み取ります。以下は `.env.example` に入っているレビュアー用テストユーザー情報で、そのまま使えます。
 
-- Employee: `employee@example.com` / `Employee123!`
-- Admin: `admin@example.com` / `Admin123!`
+- 社員: `employee@example.com` / `Employee123!`
+- 管理者: `admin@example.com` / `Admin123!`
 
-Suggested walkthrough:
+確認手順:
 
-1. Sign in as the employee.
-2. Create a new purchase request from `/requests/new`.
-3. Sign out and sign in as the admin.
-4. Open the request detail page.
-5. Approve or reject the pending request.
-6. Confirm the status and approval history changed.
+1. 社員ユーザーでログインします。
+2. `/requests/new` から購入申請を作成します。
+3. ログアウトし、管理者ユーザーでログインします。
+4. 申請詳細ページを開きます。
+5. 未承認の申請を承認または却下します。
+6. 状態表示と承認履歴が更新されていることを確認します。
 
-## Scripts
+## スクリプト
 
-- `pnpm dev`: run the development server.
-- `pnpm lint`: run ESLint.
-- `pnpm typecheck`: run TypeScript with `--noEmit`.
-- `pnpm test`: run unit tests.
-- `pnpm test:integration`: reserved for credentialed repository tests against `.env.local` when those tests are present.
-- `pnpm build`: create a production build.
-- `pnpm setup`: log in/link Supabase, push migrations, seed users, and generate `types/supabase.ts`.
-- `pnpm db:push`: push Supabase migrations to the linked project.
-- `pnpm db:seed-users`: seed the employee and admin users.
-- `pnpm db:types`: regenerate Supabase database types.
+- `pnpm dev`: 開発サーバーを起動します。
+- `pnpm lint`: ESLint を実行します。
+- `pnpm typecheck`: TypeScript の型チェックを実行します。
+- `pnpm test`: ユニットテストを実行します。
+- `pnpm test:integration`: `.env.local` を使ったリポジトリ統合テスト用の予約スクリプトです。
+- `pnpm build`: 本番ビルドを作成します。
+- `pnpm setup`: Supabase ログイン・リンク、マイグレーション適用、ユーザー作成、DB 型生成を実行します。
+- `pnpm db:push`: Supabase マイグレーションをリンク済みプロジェクトへ適用します。
+- `pnpm db:seed-users`: 社員・管理者ユーザーを作成します。
+- `pnpm db:types`: Supabase の DB 型を再生成します。
 
-## Verification
+## 検証済み項目
 
-Current verified checks:
+以下は通過済みです。
 
 ```bash
 pnpm lint
@@ -133,13 +139,50 @@ pnpm test
 pnpm build
 ```
 
-Live Supabase verification has also been run with a linked Cloud project: migrations applied, reviewer users seeded, employee create flow verified, admin approval flow verified, and approval history checked.
+リンク済み Supabase Cloud プロジェクトでも、マイグレーション適用、レビュアーユーザー作成、社員の申請作成、管理者の承認フロー、承認履歴の保存を確認済みです。
 
-## Known Limits
+## 既知の制限
 
-- No email notifications, file attachments, or multi-step approval chains.
-- No self-service user management UI; reviewer users are seeded through `supabase/seed-users.ts`.
-- UI polish is intentionally functional and minimal so the implementation stays focused on the business logic deep dive.
-- The checked-in automated tests cover domain and validation logic; repository behavior was verified through the live Supabase walkthrough instead of committed integration tests.
+- メール通知、ファイル添付、多段階承認は未実装です。
+- ユーザー管理画面はありません。レビュアーユーザーは `supabase/seed-users.ts` で作成します。
+- 見た目の装飾は最小限です。フロントエンドの重点は、申請フローの分かりやすさ、アクセシビリティ、レビュアーが確認しやすい操作性です。
+- 自動テストはドメインロジックとバリデーションを対象にしています。Supabase リポジトリの挙動は、リンク済み Cloud プロジェクトでの実操作により確認しました。
 
-Approximate working time: one focused implementation day, including Supabase setup, verification, and handoff documentation.
+作業時間の目安: Supabase 設定、検証、ドキュメント整備を含めて、約 6 時間です。
+
+---
+
+## English Summary
+
+This is a Next.js 15 + Supabase prototype for an internal equipment purchase request workflow.
+
+Employees can create purchase requests. Admins can review all requests, approve or reject pending requests, and see approval history.
+
+The selected deep-dive area is **UI/UX and front-end development**. The main reviewer-facing focus is the request workflow: login, request list, request creation, detail view, admin approval panel, clear statuses, validation feedback, responsive layout, and route-level loading/error states.
+
+Setup summary:
+
+```bash
+pnpm install
+cp .env.example .env.local
+pnpm setup
+pnpm dev
+```
+
+Open [http://localhost:3000](http://localhost:3000).
+
+Reviewer users:
+
+- Employee: `employee@example.com` / `Employee123!`
+- Admin: `admin@example.com` / `Admin123!`
+
+Approximate working time: about 6 hours, including Supabase setup, verification, and documentation.
+
+Verified checks:
+
+```bash
+pnpm lint
+pnpm typecheck
+pnpm test
+pnpm build
+```
