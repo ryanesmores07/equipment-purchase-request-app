@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { RequestStatusBadge } from "@/components/request-status-badge";
-import { requestStatuses } from "@/lib/domain/status";
+import { StatusFilterNav } from "@/components/status-filter-nav";
 import type {
   CategoryRow,
   PurchaseRequestRow,
@@ -35,7 +35,7 @@ export function RequestList({
 
   return (
     <section className="grid gap-3">
-      {isAdmin ? <StatusFilters activeStatus={activeStatus} /> : null}
+      {isAdmin ? <StatusFilterNav activeStatus={activeStatus} /> : null}
 
       {requests.length === 0 ? (
         <div className="rounded-md border border-zinc-200 bg-white p-6 text-sm text-zinc-600">
@@ -44,7 +44,60 @@ export function RequestList({
             : "表示できる申請はまだありません。"}
         </div>
       ) : (
-        <div className="overflow-x-auto rounded-md border border-zinc-200 bg-white">
+        <>
+          <div className="grid gap-3 md:hidden">
+            {requests.map((request) => (
+              <Link
+                className="block rounded-md border border-zinc-200 bg-white p-4 shadow-sm transition hover:border-zinc-400 hover:shadow"
+                href={`/requests/${request.id}`}
+                key={request.id}
+              >
+                <div className="flex items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <p className="text-xs font-medium text-zinc-500">
+                      申請内容
+                    </p>
+                    <h2 className="mt-1 break-words text-base font-semibold text-zinc-950">
+                      {request.title}
+                    </h2>
+                  </div>
+                  <RequestStatusBadge status={request.status} />
+                </div>
+                <dl className="mt-4 grid gap-2 text-sm text-zinc-600">
+                  {isAdmin ? (
+                    <div className="flex justify-between gap-3">
+                      <dt>申請者</dt>
+                      <dd className="font-medium text-zinc-800">
+                        {applicantNames[request.applicant_id] ?? "不明"}
+                      </dd>
+                    </div>
+                  ) : null}
+                  <div className="flex justify-between gap-3">
+                    <dt>カテゴリ</dt>
+                    <dd className="font-medium text-zinc-800">
+                      {categoryNames.get(request.category_id) ?? "不明"}
+                    </dd>
+                  </div>
+                  <div className="flex justify-between gap-3">
+                    <dt>金額</dt>
+                    <dd className="font-medium text-zinc-800">
+                      {yenFormatter.format(request.amount_jpy)}
+                    </dd>
+                  </div>
+                  <div className="flex justify-between gap-3">
+                    <dt>申請日</dt>
+                    <dd className="font-medium text-zinc-800">
+                      {formatDate(request.requested_at)}
+                    </dd>
+                  </div>
+                </dl>
+                <p className="mt-4 text-sm font-medium text-zinc-950">
+                  詳細を見る
+                </p>
+              </Link>
+            ))}
+          </div>
+          <div className="hidden overflow-x-auto rounded-md border border-zinc-200 bg-white md:block">
           <table className="w-full min-w-[760px] border-collapse text-left text-sm">
             <thead className="border-b border-zinc-200 bg-zinc-50 text-zinc-600">
               <tr>
@@ -91,44 +144,8 @@ export function RequestList({
             </tbody>
           </table>
         </div>
+        </>
       )}
     </section>
-  );
-}
-
-function StatusFilters({
-  activeStatus,
-}: {
-  activeStatus?: PurchaseRequestStatus;
-}) {
-  const filters = [
-    { label: statusFilterLabels.all, href: "/requests", value: undefined },
-    ...requestStatuses.map((status) => ({
-      label: statusFilterLabels[status],
-      href: `/requests?status=${status}`,
-      value: status,
-    })),
-  ];
-
-  return (
-    <nav aria-label="申請状態フィルター" className="flex flex-wrap gap-2">
-      {filters.map((filter) => {
-        const isActive = filter.value === activeStatus;
-        return (
-          <Link
-            aria-current={isActive ? "page" : undefined}
-            className={`rounded-md border px-3 py-1.5 text-sm font-medium ${
-              isActive
-                ? "border-zinc-900 bg-zinc-900 text-white"
-                : "border-zinc-300 bg-white text-zinc-700"
-            }`}
-            href={filter.href}
-            key={filter.href}
-          >
-            {filter.label}
-          </Link>
-        );
-      })}
-    </nav>
   );
 }
