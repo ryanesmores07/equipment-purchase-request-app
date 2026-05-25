@@ -28,10 +28,12 @@ export default async function RequestsPage({
   const isAdmin = profile?.role === "admin";
   const activeStatus = isAdmin ? toValidStatus(params.status) : undefined;
 
-  const [requests, categories] = await Promise.all([
+  const [requests, categories, pendingRequests] = await Promise.all([
     listRequests(supabase, { status: activeStatus }),
     listCategories(supabase),
+    isAdmin ? listRequests(supabase, { status: "pending" }) : Promise.resolve([]),
   ]);
+  const pendingCount = pendingRequests.length;
   const applicants = isAdmin
     ? await listProfilesByIds(
         supabase,
@@ -64,6 +66,25 @@ export default async function RequestsPage({
           </Link>
         ) : null}
       </div>
+      {isAdmin ? (
+        <div className="rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950">
+          {pendingCount > 0 ? (
+            <>
+              対応待ちの申請が
+              <span className="mx-1 font-semibold">{pendingCount}</span>
+              件あります。
+              <Link
+                className="ml-2 font-medium underline-offset-4 hover:underline"
+                href="/requests?status=pending"
+              >
+                申請中だけ表示
+              </Link>
+            </>
+          ) : (
+            "現在、対応待ちの申請はありません。"
+          )}
+        </div>
+      ) : null}
       <RequestList
         activeStatus={activeStatus}
         applicantNames={applicantNames}

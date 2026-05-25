@@ -56,7 +56,7 @@ export async function createRequestAction(
   }
 
   revalidatePath("/requests");
-  redirect(`/requests/${requestId}`);
+  redirect(`/requests/${requestId}?result=created`);
 }
 
 export async function decideRequestAction(
@@ -98,7 +98,7 @@ export async function decideRequestAction(
 
   revalidatePath("/requests");
   revalidatePath(`/requests/${requestId}`);
-  return {};
+  redirect(`/requests/${requestId}?result=${parsed.data.status}`);
 }
 
 export async function updateRequestAction(
@@ -141,7 +141,7 @@ export async function updateRequestAction(
 
   revalidatePath("/requests");
   revalidatePath(`/requests/${requestId}`);
-  redirect(`/requests/${requestId}`);
+  redirect(`/requests/${requestId}?result=updated`);
 }
 
 export async function cancelRequestAction(
@@ -182,5 +182,5 @@ export async function cancelRequestAction(
 
   revalidatePath("/requests");
   revalidatePath(`/requests/${requestId}`);
-  redirect(`/requests/${requestId}`);
+  redirect(`/requests/${requestId}?result=cancelled`);
 }

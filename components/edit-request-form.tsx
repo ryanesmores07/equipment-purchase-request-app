@@ -84,8 +84,12 @@ export function EditRequestForm({
           type="number"
           min={1}
           max={10000000}
+          aria-describedby="amountJpy-help"
           required
         />
+        <p className="text-xs text-zinc-500" id="amountJpy-help">
+          半角数字で入力してください。例: 50000
+        </p>
         {state.fieldErrors?.amountJpy ? (
           <p className="text-sm text-red-600">
             {state.fieldErrors.amountJpy[0]}

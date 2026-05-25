@@ -1,5 +1,9 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import {
+  ActionFeedbackBanner,
+  getActionFeedbackResult,
+} from "@/components/action-feedback-banner";
 import { ApprovalPanel } from "@/components/approval-panel";
 import { CancelRequestForm } from "@/components/cancel-request-form";
 import { RequestStatusBadge } from "@/components/request-status-badge";
@@ -22,10 +26,14 @@ const yenFormatter = new Intl.NumberFormat("ja-JP", {
 
 export default async function RequestDetailPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ id: string }>;
+  searchParams: Promise<{ result?: string | string[] }>;
 }) {
   const { id } = await params;
+  const { result } = await searchParams;
+  const feedbackResult = getActionFeedbackResult(result);
   const { supabase, user } = await requireUser();
   const [request, categories, profile] = await Promise.all([
     getRequestById(supabase, id),
@@ -56,6 +64,7 @@ export default async function RequestDetailPage({
 
   return (
     <section className="grid gap-6">
+      {feedbackResult ? <ActionFeedbackBanner result={feedbackResult} /> : null}
       <div>
         <Link
           className="text-sm font-medium text-zinc-700 underline-offset-4 hover:underline"
