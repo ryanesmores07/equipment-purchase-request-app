@@ -23,7 +23,7 @@ Supabase Cloud を使うため、ローカル Docker は不要です。レビュ
 - ログイン、申請一覧、申請作成、申請詳細、管理者承認パネルまでの一連の申請フロー
 - `pending`、`approved`、`rejected`、`cancelled` の状態が分かりやすい表示
 - 未判断申請の編集・キャンセル
-- 申請詳細でのアクティビティ履歴表示
+- 編集前後の差分を含む申請詳細でのアクティビティ履歴表示
 - 入力項目に近い位置でのバリデーションエラー表示
 - レスポンシブな画面レイアウト
 - ルート単位の loading / error 状態
@@ -37,7 +37,7 @@ Supabase Cloud を使うため、ローカル Docker は不要です。レビュ
 - `categories`: 申請カテゴリ。
 - `purchase_requests`: 申請内容と `pending` / `approved` / `rejected` / `cancelled` の状態。
 - `approval_history`: 管理者判断やキャンセル時に追加される既存の状態変更履歴。
-- `request_activity`: 作成・編集・キャンセル・承認・却下を表示するユーザー向け履歴。
+- `request_activity`: 作成・編集・キャンセル・承認・却下を表示するユーザー向け履歴。編集時は変更された項目の前後差分も保存します。
 
 状態遷移はシンプルにしています。
 

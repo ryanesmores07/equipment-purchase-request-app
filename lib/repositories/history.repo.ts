@@ -28,7 +28,7 @@ export async function listRequestActivity(
 ): Promise<RequestActivityRow[]> {
   const { data, error } = await supabase
     .from("request_activity")
-    .select("id,request_id,actor_id,action,note,acted_at")
+    .select("id,request_id,actor_id,action,note,changes,acted_at")
     .eq("request_id", requestId)
     .order("acted_at", { ascending: false });
 

@@ -1,4 +1,4 @@
-﻿export type Json =
+export type Json =
   | string
   | number
   | boolean
@@ -108,6 +108,9 @@ export type Database = {
         Row: {
           amount_jpy: number
           applicant_id: string
+          cancellation_note: string | null
+          cancelled_at: string | null
+          cancelled_by: string | null
           category_id: string
           decided_at: string | null
           decided_by: string | null
@@ -121,6 +124,9 @@ export type Database = {
         Insert: {
           amount_jpy: number
           applicant_id: string
+          cancellation_note?: string | null
+          cancelled_at?: string | null
+          cancelled_by?: string | null
           category_id: string
           decided_at?: string | null
           decided_by?: string | null
@@ -134,6 +140,9 @@ export type Database = {
         Update: {
           amount_jpy?: number
           applicant_id?: string
+          cancellation_note?: string | null
+          cancelled_at?: string | null
+          cancelled_by?: string | null
           category_id?: string
           decided_at?: string | null
           decided_by?: string | null
@@ -153,6 +162,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "purchase_requests_cancelled_by_fkey"
+            columns: ["cancelled_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "purchase_requests_category_id_fkey"
             columns: ["category_id"]
             isOneToOne: false
@@ -164,6 +180,51 @@ export type Database = {
             columns: ["decided_by"]
             isOneToOne: false
             referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      request_activity: {
+        Row: {
+          acted_at: string
+          action: string
+          actor_id: string
+          changes: Json | null
+          id: string
+          note: string | null
+          request_id: string
+        }
+        Insert: {
+          acted_at?: string
+          action: string
+          actor_id: string
+          changes?: Json | null
+          id?: string
+          note?: string | null
+          request_id: string
+        }
+        Update: {
+          acted_at?: string
+          action?: string
+          actor_id?: string
+          changes?: Json | null
+          id?: string
+          note?: string | null
+          request_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "request_activity_actor_id_fkey"
+            columns: ["actor_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "request_activity_request_id_fkey"
+            columns: ["request_id"]
+            isOneToOne: false
+            referencedRelation: "purchase_requests"
             referencedColumns: ["id"]
           },
         ]
@@ -306,4 +367,3 @@ export const Constants = {
     Enums: {},
   },
 } as const
-

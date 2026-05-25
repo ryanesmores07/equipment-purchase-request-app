@@ -59,11 +59,27 @@ export type RequestActivityAction =
   | "approved"
   | "rejected";
 
+export type RequestActivityChangeField =
+  | "category_id"
+  | "title"
+  | "description"
+  | "amount_jpy";
+
+export type RequestActivityChangeValue = {
+  from: string | number | null;
+  to: string | number | null;
+};
+
+export type RequestActivityChanges = Partial<
+  Record<RequestActivityChangeField, RequestActivityChangeValue>
+>;
+
 export type RequestActivityRow = {
   id: string;
   request_id: string;
   actor_id: string;
   action: RequestActivityAction;
   note: string | null;
+  changes: RequestActivityChanges | null;
   acted_at: string;
 };

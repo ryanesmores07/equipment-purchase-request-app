@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { ApprovalPanel } from "@/components/approval-panel";
 import { CancelRequestForm } from "@/components/cancel-request-form";
 import { RequestStatusBadge } from "@/components/request-status-badge";
+import { getActivityChangeSummaries } from "@/lib/activity-change-summary";
 import { requireUser } from "@/lib/auth/require-user";
 import { listCategories } from "@/lib/repositories/categories.repo";
 import { listRequestActivity } from "@/lib/repositories/history.repo";
@@ -206,27 +207,57 @@ export default async function RequestDetailPage({
           </p>
         ) : (
           <ol className="grid gap-2">
-            {activity.map((item) => (
-              <li
-                className="rounded-md border border-zinc-200 bg-white p-4 text-sm"
-                key={item.id}
-              >
-                <span className="font-medium text-zinc-950">
-                  {activityLabels[item.action]}
-                </span>
-                <span className="ml-2 text-zinc-500">
-                  {formatDateTime(item.acted_at)}
-                </span>
-                <p className="mt-1 text-zinc-600">
-                  {profileNames[item.actor_id] ?? "不明"}
-                </p>
-                {item.note ? (
-                  <p className="mt-2 whitespace-pre-wrap text-zinc-700">
-                    {item.note}
+            {activity.map((item) => {
+              const changeSummaries = getActivityChangeSummaries(
+                item.changes,
+                categories,
+              );
+
+              return (
+                <li
+                  className="rounded-md border border-zinc-200 bg-white p-4 text-sm"
+                  key={item.id}
+                >
+                  <span className="font-medium text-zinc-950">
+                    {activityLabels[item.action]}
+                  </span>
+                  <span className="ml-2 text-zinc-500">
+                    {formatDateTime(item.acted_at)}
+                  </span>
+                  <p className="mt-1 text-zinc-600">
+                    {profileNames[item.actor_id] ?? "不明"}
                   </p>
-                ) : null}
-              </li>
-            ))}
+                  {changeSummaries.length > 0 ? (
+                    <dl className="mt-3 grid gap-2 rounded-md bg-zinc-50 p-3">
+                      {changeSummaries.map((change) => (
+                        <div
+                          className="grid gap-1 sm:grid-cols-[7rem_1fr]"
+                          key={change.field}
+                        >
+                          <dt className="font-medium text-zinc-700">
+                            {change.field}
+                          </dt>
+                          <dd className="break-words text-zinc-700">
+                            <span className="whitespace-pre-wrap">
+                              {change.from}
+                            </span>
+                            <span className="mx-2 text-zinc-400">→</span>
+                            <span className="whitespace-pre-wrap">
+                              {change.to}
+                            </span>
+                          </dd>
+                        </div>
+                      ))}
+                    </dl>
+                  ) : null}
+                  {item.note ? (
+                    <p className="mt-2 whitespace-pre-wrap text-zinc-700">
+                      {item.note}
+                    </p>
+                  ) : null}
+                </li>
+              );
+            })}
           </ol>
         )}
       </section>
