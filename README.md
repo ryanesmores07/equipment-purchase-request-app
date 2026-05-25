@@ -107,7 +107,8 @@ pnpm dev
 
 シードスクリプトは `.env.local` の値を読み取ります。以下は `.env.example` に入っているレビュアー用テストユーザー情報で、そのまま使えます。
 
-- 社員: `employee@example.com` / `Employee123!`
+- 社員1: `employee@example.com` / `Employee123!`
+- 社員2: `employee2@example.com` / `Employee234!`
 - 管理者: `admin@example.com` / `Admin123!`
 
 確認手順:
@@ -115,10 +116,12 @@ pnpm dev
 1. 社員ユーザーでログインします。
 2. `/requests/new` から購入申請を作成します。
 3. 未判断の申請を編集またはキャンセルできることを確認します。
-4. ログアウトし、管理者ユーザーでログインします。
-5. 申請詳細ページを開きます。
-6. 未承認の申請を承認または却下します。
-7. 状態表示とアクティビティ履歴が更新されていることを確認します。
+4. 別の社員ユーザーでログインし、他社員の申請が一覧に出ないことを確認します。
+5. ログアウトし、管理者ユーザーでログインします。
+6. 管理者には全社員の申請が表示されることを確認します。
+7. 申請詳細ページを開きます。
+8. 未承認の申請を承認または却下します。
+9. 状態表示とアクティビティ履歴が更新されていることを確認します。
 
 ## スクリプト
 
@@ -149,7 +152,7 @@ pnpm build
 ## 既知の制限
 
 - メール通知、ファイル添付、多段階承認は未実装です。
-- ユーザー管理画面はありません。レビュアーユーザーは `supabase/seed-users.ts` で作成します。
+- ユーザー管理画面はありません。レビュアーユーザーは `supabase/seed-users.ts` で作成します。管理者による社員アカウント作成は、このプロトタイプの範囲外です。
 - 見た目の装飾は最小限です。フロントエンドの重点は、申請フローの分かりやすさ、アクセシビリティ、レビュアーが確認しやすい操作性です。
 - 自動テストはドメインロジックとバリデーションを対象にしています。Supabase リポジトリの挙動は、リンク済み Cloud プロジェクトでの実操作により確認しました。
 
@@ -178,7 +181,8 @@ Open [http://localhost:3000](http://localhost:3000).
 
 Reviewer users:
 
-- Employee: `employee@example.com` / `Employee123!`
+- Employee 1: `employee@example.com` / `Employee123!`
+- Employee 2: `employee2@example.com` / `Employee234!`
 - Admin: `admin@example.com` / `Admin123!`
 
 Approximate working time: about 6 hours, including Supabase setup, verification, and documentation.

@@ -19,6 +19,10 @@ function requiredEnv(name: string): string {
   return value;
 }
 
+function optionalEnv(name: string, fallback: string): string {
+  return process.env[name] || fallback;
+}
+
 const supabase = createClient(
   requiredEnv("NEXT_PUBLIC_SUPABASE_URL"),
   requiredEnv("SUPABASE_SERVICE_ROLE_KEY"),
@@ -35,6 +39,12 @@ const seedUsers: SeedUser[] = [
     email: requiredEnv("SEED_EMPLOYEE_EMAIL"),
     password: requiredEnv("SEED_EMPLOYEE_PASSWORD"),
     fullName: "Seed Employee",
+    role: "employee",
+  },
+  {
+    email: optionalEnv("SEED_EMPLOYEE_2_EMAIL", "employee2@example.com"),
+    password: optionalEnv("SEED_EMPLOYEE_2_PASSWORD", "Employee234!"),
+    fullName: "Seed Employee 2",
     role: "employee",
   },
   {
