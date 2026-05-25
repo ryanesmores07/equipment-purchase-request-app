@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   createRequestSchema,
   decideRequestSchema,
+  updateRequestSchema,
 } from "@/lib/validation/request-schemas";
 
 const validCreateRequest = {
@@ -84,5 +85,22 @@ describe("decideRequestSchema", () => {
         decisionNote: "Budget exceeds this quarter's limit.",
       }).success,
     ).toBe(true);
+  });
+});
+
+describe("updateRequestSchema", () => {
+  it("accepts the same editable fields as create request", () => {
+    expect(updateRequestSchema.safeParse(validCreateRequest).success).toBe(
+      true,
+    );
+  });
+
+  it("rejects invalid edited amounts", () => {
+    const result = updateRequestSchema.safeParse({
+      ...validCreateRequest,
+      amountJpy: 10000001,
+    });
+
+    expect(result.success).toBe(false);
   });
 });

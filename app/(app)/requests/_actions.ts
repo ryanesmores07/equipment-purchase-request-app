@@ -9,10 +9,12 @@ import {
   createRequest,
   decideRequest,
   getRequestById,
+  updateRequest,
 } from "@/lib/repositories/requests.repo";
 import {
   createRequestSchema,
   decideRequestSchema,
+  updateRequestSchema,
 } from "@/lib/validation/request-schemas";
 
 type ActionState = {
@@ -95,4 +97,47 @@ export async function decideRequestAction(
   revalidatePath("/requests");
   revalidatePath(`/requests/${requestId}`);
   return {};
+}
+
+export async function updateRequestAction(
+  _previousState: RequestActionState,
+  formData: FormData,
+): Promise<RequestActionState> {
+  const requestId = String(formData.get("requestId") ?? "");
+  const parsed = updateRequestSchema.safeParse({
+    categoryId: formData.get("categoryId"),
+    title: formData.get("title"),
+    description: formData.get("description"),
+    amountJpy: formData.get("amountJpy"),
+  });
+
+  if (!parsed.success) {
+    return { fieldErrors: parsed.error.flatten().fieldErrors };
+  }
+
+  const { supabase, user } = await requireUser();
+  const current = await getRequestById(supabase, requestId);
+
+  if (!current || current.applicant_id !== user.id) {
+    return { formError: "編集できる申請が見つかりません。" };
+  }
+
+  if (current.status !== "pending") {
+    return { formError: "判断済みの申請は編集できません。" };
+  }
+
+  try {
+    await updateRequest(supabase, {
+      ...parsed.data,
+      id: requestId,
+      applicantId: user.id,
+    });
+  } catch (error) {
+    console.error({ op: "update-request-action", requestId, userId: user.id, error });
+    return { formError: "申請を更新できませんでした。" };
+  }
+
+  revalidatePath("/requests");
+  revalidatePath(`/requests/${requestId}`);
+  redirect(`/requests/${requestId}`);
 }

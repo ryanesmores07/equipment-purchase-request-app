@@ -1,4 +1,7 @@
-import type { CreateRequestInput } from "@/lib/validation/request-schemas";
+import type {
+  CreateRequestInput,
+  UpdateRequestInput,
+} from "@/lib/validation/request-schemas";
 import type {
   PurchaseRequestRow,
   PurchaseRequestStatus,
@@ -14,6 +17,11 @@ type DecideRequestParams = {
   status: Exclude<PurchaseRequestStatus, "pending">;
   decidedBy: string;
   decisionNote?: string;
+};
+
+type UpdateRequestParams = UpdateRequestInput & {
+  id: string;
+  applicantId: string;
 };
 
 type ListRequestsParams = {
@@ -86,6 +94,39 @@ export async function createRequest(
   if (error) {
     console.error({ op: "create-request", applicantId: params.applicantId, error });
     throw new Error("Failed to create purchase request.");
+  }
+
+  return data;
+}
+
+export async function updateRequest(
+  supabase: SupabaseServerClient,
+  params: UpdateRequestParams,
+): Promise<PurchaseRequestRow> {
+  const { data, error } = await supabase
+    .from("purchase_requests")
+    .update({
+      category_id: params.categoryId,
+      title: params.title,
+      description: params.description ?? null,
+      amount_jpy: params.amountJpy,
+    })
+    .eq("id", params.id)
+    .eq("applicant_id", params.applicantId)
+    .eq("status", "pending")
+    .select(
+      "id,applicant_id,category_id,title,description,amount_jpy,status,requested_at,decided_at,decided_by,decision_note",
+    )
+    .single<PurchaseRequestRow>();
+
+  if (error) {
+    console.error({
+      op: "update-request",
+      requestId: params.id,
+      applicantId: params.applicantId,
+      error,
+    });
+    throw new Error("Failed to update purchase request.");
   }
 
   return data;

@@ -20,6 +20,8 @@ export const createRequestSchema = z.object({
   amountJpy: z.coerce.number().int().positive().max(10000000),
 });
 
+export const updateRequestSchema = createRequestSchema;
+
 export const decideRequestSchema = z
   .object({
     status: z.enum(["approved", "rejected"]),
@@ -36,4 +38,5 @@ export const decideRequestSchema = z
   });
 
 export type CreateRequestInput = z.infer<typeof createRequestSchema>;
+export type UpdateRequestInput = z.infer<typeof updateRequestSchema>;
 export type DecideRequestInput = z.infer<typeof decideRequestSchema>;

@@ -138,6 +138,14 @@ export default async function RequestDetailPage({
           <p className="mt-1 text-sm text-zinc-600">
             未判断の申請は、管理者が判断する前に編集またはキャンセルできます。
           </p>
+          <div className="mt-4 flex flex-wrap gap-3">
+            <Link
+              className="rounded-md border border-zinc-300 px-4 py-2 text-sm font-medium text-zinc-800"
+              href={`/requests/${request.id}/edit`}
+            >
+              申請を編集
+            </Link>
+          </div>
         </section>
       ) : null}
       {isLocked ? (
