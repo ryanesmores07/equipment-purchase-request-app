@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ApprovalPanel } from "@/components/approval-panel";
 import { RequestStatusBadge } from "@/components/request-status-badge";
@@ -43,9 +44,21 @@ export default async function RequestDetailPage({
   const profileNames = Object.fromEntries(
     relatedProfiles.map((item) => [item.id, item.full_name]),
   );
+  const isApplicant = request.applicant_id === user.id;
+  const isPending = request.status === "pending";
+  const canApplicantChange = isApplicant && isPending;
+  const isLocked = !isPending;
 
   return (
     <section className="grid gap-6">
+      <div>
+        <Link
+          className="text-sm font-medium text-zinc-700 underline-offset-4 hover:underline"
+          href="/requests"
+        >
+          申請一覧に戻る
+        </Link>
+      </div>
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 className="text-2xl font-semibold text-zinc-950">
@@ -119,6 +132,24 @@ export default async function RequestDetailPage({
           </div>
         ) : null}
       </dl>
+      {canApplicantChange ? (
+        <section className="rounded-md border border-zinc-200 bg-white p-4">
+          <h2 className="text-lg font-semibold text-zinc-950">申請者操作</h2>
+          <p className="mt-1 text-sm text-zinc-600">
+            未判断の申請は、管理者が判断する前に編集またはキャンセルできます。
+          </p>
+        </section>
+      ) : null}
+      {isLocked ? (
+        <section className="rounded-md border border-zinc-200 bg-zinc-50 p-4">
+          <h2 className="text-lg font-semibold text-zinc-950">
+            この申請はロックされています
+          </h2>
+          <p className="mt-1 text-sm text-zinc-600">
+            判断済みの申請は、内容の変更やキャンセルができません。
+          </p>
+        </section>
+      ) : null}
       {profile?.role === "admin" && request.status === "pending" ? (
         <ApprovalPanel requestId={request.id} />
       ) : null}
