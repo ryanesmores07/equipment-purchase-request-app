@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ApprovalPanel } from "@/components/approval-panel";
+import { CancelRequestForm } from "@/components/cancel-request-form";
 import { RequestStatusBadge } from "@/components/request-status-badge";
 import { requireUser } from "@/lib/auth/require-user";
 import { listCategories } from "@/lib/repositories/categories.repo";
@@ -37,9 +38,11 @@ export default async function RequestDetailPage({
 
   const history = await listApprovalHistory(supabase, request.id);
   const category = categories.find((item) => item.id === request.category_id);
-  const relatedProfileIds = [request.applicant_id, request.decided_by].filter(
-    (value): value is string => Boolean(value),
-  );
+  const relatedProfileIds = [
+    request.applicant_id,
+    request.decided_by,
+    request.cancelled_by,
+  ].filter((value): value is string => Boolean(value));
   const relatedProfiles = await listProfilesByIds(supabase, relatedProfileIds);
   const profileNames = Object.fromEntries(
     relatedProfiles.map((item) => [item.id, item.full_name]),
@@ -113,6 +116,26 @@ export default async function RequestDetailPage({
             </dd>
           </div>
         ) : null}
+        {request.cancelled_at ? (
+          <div>
+            <dt className="text-xs font-medium uppercase text-zinc-500">
+              キャンセル日
+            </dt>
+            <dd className="mt-1 text-sm text-zinc-950">
+              {formatDate(request.cancelled_at)}
+            </dd>
+          </div>
+        ) : null}
+        {request.cancelled_by ? (
+          <div>
+            <dt className="text-xs font-medium uppercase text-zinc-500">
+              キャンセル者
+            </dt>
+            <dd className="mt-1 text-sm text-zinc-950">
+              {profileNames[request.cancelled_by] ?? "不明"}
+            </dd>
+          </div>
+        ) : null}
         <div className="sm:col-span-2">
           <dt className="text-xs font-medium uppercase text-zinc-500">
             補足説明
@@ -128,6 +151,16 @@ export default async function RequestDetailPage({
             </dt>
             <dd className="mt-1 whitespace-pre-wrap text-sm text-zinc-950">
               {request.decision_note}
+            </dd>
+          </div>
+        ) : null}
+        {request.cancellation_note ? (
+          <div className="sm:col-span-2">
+            <dt className="text-xs font-medium uppercase text-zinc-500">
+              キャンセル理由
+            </dt>
+            <dd className="mt-1 whitespace-pre-wrap text-sm text-zinc-950">
+              {request.cancellation_note}
             </dd>
           </div>
         ) : null}
@@ -148,6 +181,7 @@ export default async function RequestDetailPage({
           </div>
         </section>
       ) : null}
+      {canApplicantChange ? <CancelRequestForm requestId={request.id} /> : null}
       {isLocked ? (
         <section className="rounded-md border border-zinc-200 bg-zinc-50 p-4">
           <h2 className="text-lg font-semibold text-zinc-950">

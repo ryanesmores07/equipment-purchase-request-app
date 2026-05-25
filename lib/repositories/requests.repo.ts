@@ -1,5 +1,6 @@
 import type {
   CreateRequestInput,
+  CancelRequestInput,
   UpdateRequestInput,
 } from "@/lib/validation/request-schemas";
 import type {
@@ -14,9 +15,14 @@ type CreateRequestParams = CreateRequestInput & {
 
 type DecideRequestParams = {
   id: string;
-  status: Exclude<PurchaseRequestStatus, "pending">;
+  status: "approved" | "rejected";
   decidedBy: string;
   decisionNote?: string;
+};
+
+type CancelRequestParams = CancelRequestInput & {
+  id: string;
+  applicantId: string;
 };
 
 type UpdateRequestParams = UpdateRequestInput & {
@@ -28,15 +34,16 @@ type ListRequestsParams = {
   status?: PurchaseRequestStatus;
 };
 
+const requestSelect =
+  "id,applicant_id,category_id,title,description,amount_jpy,status,requested_at,decided_at,decided_by,decision_note,cancelled_at,cancelled_by,cancellation_note";
+
 export async function listRequests(
   supabase: SupabaseServerClient,
   params: ListRequestsParams = {},
 ): Promise<PurchaseRequestRow[]> {
   let query = supabase
     .from("purchase_requests")
-    .select(
-      "id,applicant_id,category_id,title,description,amount_jpy,status,requested_at,decided_at,decided_by,decision_note",
-    )
+    .select(requestSelect)
     .order("requested_at", { ascending: false });
 
   if (params.status) {
@@ -59,9 +66,7 @@ export async function getRequestById(
 ): Promise<PurchaseRequestRow | null> {
   const { data, error } = await supabase
     .from("purchase_requests")
-    .select(
-      "id,applicant_id,category_id,title,description,amount_jpy,status,requested_at,decided_at,decided_by,decision_note",
-    )
+    .select(requestSelect)
     .eq("id", id)
     .maybeSingle<PurchaseRequestRow>();
 
@@ -86,9 +91,7 @@ export async function createRequest(
       description: params.description ?? null,
       amount_jpy: params.amountJpy,
     })
-    .select(
-      "id,applicant_id,category_id,title,description,amount_jpy,status,requested_at,decided_at,decided_by,decision_note",
-    )
+    .select(requestSelect)
     .single<PurchaseRequestRow>();
 
   if (error) {
@@ -114,9 +117,7 @@ export async function updateRequest(
     .eq("id", params.id)
     .eq("applicant_id", params.applicantId)
     .eq("status", "pending")
-    .select(
-      "id,applicant_id,category_id,title,description,amount_jpy,status,requested_at,decided_at,decided_by,decision_note",
-    )
+    .select(requestSelect)
     .single<PurchaseRequestRow>();
 
   if (error) {
@@ -127,6 +128,37 @@ export async function updateRequest(
       error,
     });
     throw new Error("Failed to update purchase request.");
+  }
+
+  return data;
+}
+
+export async function cancelRequest(
+  supabase: SupabaseServerClient,
+  params: CancelRequestParams,
+): Promise<PurchaseRequestRow> {
+  const { data, error } = await supabase
+    .from("purchase_requests")
+    .update({
+      status: "cancelled",
+      cancelled_at: new Date().toISOString(),
+      cancelled_by: params.applicantId,
+      cancellation_note: params.cancellationNote ?? null,
+    })
+    .eq("id", params.id)
+    .eq("applicant_id", params.applicantId)
+    .eq("status", "pending")
+    .select(requestSelect)
+    .single<PurchaseRequestRow>();
+
+  if (error) {
+    console.error({
+      op: "cancel-request",
+      requestId: params.id,
+      applicantId: params.applicantId,
+      error,
+    });
+    throw new Error("Failed to cancel purchase request.");
   }
 
   return data;
@@ -145,9 +177,7 @@ export async function decideRequest(
       decision_note: params.decisionNote ?? null,
     })
     .eq("id", params.id)
-    .select(
-      "id,applicant_id,category_id,title,description,amount_jpy,status,requested_at,decided_at,decided_by,decision_note",
-    )
+    .select(requestSelect)
     .single<PurchaseRequestRow>();
 
   if (error) {

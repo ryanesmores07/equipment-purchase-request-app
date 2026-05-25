@@ -10,6 +10,10 @@ describe("request status transitions", () => {
     expect(canTransition("pending", "rejected")).toBe(true);
   });
 
+  it("allows pending requests to be cancelled", () => {
+    expect(canTransition("pending", "cancelled")).toBe(true);
+  });
+
   it("prevents approved requests from changing", () => {
     expect(canTransition("approved", "pending")).toBe(false);
     expect(canTransition("approved", "rejected")).toBe(false);
@@ -24,5 +28,6 @@ describe("request status transitions", () => {
     expect(isTerminalStatus("pending")).toBe(false);
     expect(isTerminalStatus("approved")).toBe(true);
     expect(isTerminalStatus("rejected")).toBe(true);
+    expect(isTerminalStatus("cancelled")).toBe(true);
   });
 });

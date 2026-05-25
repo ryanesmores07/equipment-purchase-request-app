@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  cancelRequestSchema,
   createRequestSchema,
   decideRequestSchema,
   updateRequestSchema,
@@ -99,6 +100,35 @@ describe("updateRequestSchema", () => {
     const result = updateRequestSchema.safeParse({
       ...validCreateRequest,
       amountJpy: 10000001,
+    });
+
+    expect(result.success).toBe(false);
+  });
+});
+
+describe("cancelRequestSchema", () => {
+  it("accepts cancellation with confirmation and an optional note", () => {
+    expect(
+      cancelRequestSchema.safeParse({
+        cancellationNote: "No longer needed.",
+        confirmCancel: "on",
+      }).success,
+    ).toBe(true);
+  });
+
+  it("requires explicit cancellation confirmation", () => {
+    const result = cancelRequestSchema.safeParse({
+      cancellationNote: "No longer needed.",
+      confirmCancel: "",
+    });
+
+    expect(result.success).toBe(false);
+  });
+
+  it("rejects cancellation notes longer than 500 characters", () => {
+    const result = cancelRequestSchema.safeParse({
+      cancellationNote: "a".repeat(501),
+      confirmCancel: "on",
     });
 
     expect(result.success).toBe(false);

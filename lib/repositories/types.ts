@@ -19,7 +19,11 @@ export type CategoryRow = {
   created_at: string;
 };
 
-export type PurchaseRequestStatus = "pending" | "approved" | "rejected";
+export type PurchaseRequestStatus =
+  | "pending"
+  | "approved"
+  | "rejected"
+  | "cancelled";
 
 export type PurchaseRequestRow = {
   id: string;
@@ -33,6 +37,9 @@ export type PurchaseRequestRow = {
   decided_at: string | null;
   decided_by: string | null;
   decision_note: string | null;
+  cancelled_at: string | null;
+  cancelled_by: string | null;
+  cancellation_note: string | null;
 };
 
 export type ApprovalHistoryRow = {

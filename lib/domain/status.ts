@@ -1,11 +1,17 @@
-export const requestStatuses = ["pending", "approved", "rejected"] as const;
+export const requestStatuses = [
+  "pending",
+  "approved",
+  "rejected",
+  "cancelled",
+] as const;
 
 export type RequestStatus = (typeof requestStatuses)[number];
 
 const transitions: Record<RequestStatus, readonly RequestStatus[]> = {
-  pending: ["approved", "rejected"],
+  pending: ["approved", "rejected", "cancelled"],
   approved: [],
   rejected: [],
+  cancelled: [],
 };
 
 export function canTransition(from: RequestStatus, to: RequestStatus): boolean {

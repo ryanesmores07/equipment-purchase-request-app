@@ -4,6 +4,7 @@ export const statusLabels: Record<PurchaseRequestStatus, string> = {
   pending: "申請中",
   approved: "承認済み",
   rejected: "却下済み",
+  cancelled: "キャンセル済み",
 };
 
 export const roleLabels = {

@@ -6,12 +6,14 @@ import { canTransition } from "@/lib/domain/status";
 import { requireAdmin } from "@/lib/auth/require-role";
 import { requireUser } from "@/lib/auth/require-user";
 import {
+  cancelRequest,
   createRequest,
   decideRequest,
   getRequestById,
   updateRequest,
 } from "@/lib/repositories/requests.repo";
 import {
+  cancelRequestSchema,
   createRequestSchema,
   decideRequestSchema,
   updateRequestSchema,
@@ -135,6 +137,47 @@ export async function updateRequestAction(
   } catch (error) {
     console.error({ op: "update-request-action", requestId, userId: user.id, error });
     return { formError: "申請を更新できませんでした。" };
+  }
+
+  revalidatePath("/requests");
+  revalidatePath(`/requests/${requestId}`);
+  redirect(`/requests/${requestId}`);
+}
+
+export async function cancelRequestAction(
+  _previousState: RequestActionState,
+  formData: FormData,
+): Promise<RequestActionState> {
+  const requestId = String(formData.get("requestId") ?? "");
+  const parsed = cancelRequestSchema.safeParse({
+    cancellationNote: formData.get("cancellationNote"),
+    confirmCancel: formData.get("confirmCancel"),
+  });
+
+  if (!parsed.success) {
+    return { fieldErrors: parsed.error.flatten().fieldErrors };
+  }
+
+  const { supabase, user } = await requireUser();
+  const current = await getRequestById(supabase, requestId);
+
+  if (!current || current.applicant_id !== user.id) {
+    return { formError: "キャンセルできる申請が見つかりません。" };
+  }
+
+  if (current.status !== "pending") {
+    return { formError: "判断済みの申請はキャンセルできません。" };
+  }
+
+  try {
+    await cancelRequest(supabase, {
+      id: requestId,
+      applicantId: user.id,
+      ...parsed.data,
+    });
+  } catch (error) {
+    console.error({ op: "cancel-request-action", requestId, userId: user.id, error });
+    return { formError: "申請をキャンセルできませんでした。" };
   }
 
   revalidatePath("/requests");

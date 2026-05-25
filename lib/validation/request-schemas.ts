@@ -37,6 +37,12 @@ export const decideRequestSchema = z
     }
   });
 
+export const cancelRequestSchema = z.object({
+  cancellationNote: optionalTrimmedText(500),
+  confirmCancel: z.literal("on"),
+});
+
 export type CreateRequestInput = z.infer<typeof createRequestSchema>;
 export type UpdateRequestInput = z.infer<typeof updateRequestSchema>;
 export type DecideRequestInput = z.infer<typeof decideRequestSchema>;
+export type CancelRequestInput = z.infer<typeof cancelRequestSchema>;
