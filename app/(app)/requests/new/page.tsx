@@ -1,10 +1,10 @@
 import Link from "next/link";
 import { CreateRequestForm } from "@/components/create-request-form";
-import { requireUser } from "@/lib/auth/require-user";
+import { requireEmployee } from "@/lib/auth/require-role";
 import { listCategories } from "@/lib/repositories/categories.repo";
 
 export default async function NewRequestPage() {
-  const { supabase } = await requireUser();
+  const { supabase } = await requireEmployee();
   const categories = await listCategories(supabase);
 
   return (

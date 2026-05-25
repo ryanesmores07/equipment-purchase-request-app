@@ -161,7 +161,7 @@ pnpm build
 
 This is a Next.js 15 + Supabase prototype for an internal equipment purchase request workflow.
 
-Employees can create, edit, and cancel their own pending purchase requests. Admins can review all requests, approve or reject pending requests, and see the activity timeline.
+Employees can create, edit, and cancel their own pending purchase requests. Admins can review all requests, approve or reject pending requests, and see the activity timeline; admins do not create requests in this prototype.
 
 The selected deep-dive area is **UI/UX and front-end development**. The main reviewer-facing focus is the request workflow: login, request list, request creation, detail view, admin approval panel, clear statuses, validation feedback, responsive layout, and route-level loading/error states.
 

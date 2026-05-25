@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { canTransition } from "@/lib/domain/status";
-import { requireAdmin } from "@/lib/auth/require-role";
+import { requireAdmin, requireEmployee } from "@/lib/auth/require-role";
 import { requireUser } from "@/lib/auth/require-user";
 import {
   cancelRequest,
@@ -41,7 +41,7 @@ export async function createRequestAction(
     return { fieldErrors: parsed.error.flatten().fieldErrors };
   }
 
-  const { supabase, user } = await requireUser();
+  const { supabase, user } = await requireEmployee();
   let requestId: string;
 
   try {

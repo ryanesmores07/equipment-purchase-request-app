@@ -25,12 +25,14 @@ export default async function AppLayout({
                 {profile.full_name} / {roleLabels[profile.role]}
               </span>
             ) : null}
-            <Link
-              className="rounded-md border border-zinc-300 px-3 py-1.5 font-medium text-zinc-800"
-              href="/requests/new"
-            >
-              新規申請
-            </Link>
+            {profile?.role === "employee" ? (
+              <Link
+                className="rounded-md border border-zinc-300 px-3 py-1.5 font-medium text-zinc-800"
+                href="/requests/new"
+              >
+                新規申請
+              </Link>
+            ) : null}
             <form action={logoutAction}>
               <button
                 className="rounded-md bg-zinc-900 px-3 py-1.5 font-medium text-white"

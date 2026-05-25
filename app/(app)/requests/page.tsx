@@ -55,12 +55,14 @@ export default async function RequestsPage({
               : "自分が作成した購入申請を確認できます。"}
           </p>
         </div>
-        <Link
-          className="rounded-md bg-zinc-900 px-4 py-2 text-sm font-medium text-white"
-          href="/requests/new"
-        >
-          新規申請
-        </Link>
+        {!isAdmin ? (
+          <Link
+            className="rounded-md bg-zinc-900 px-4 py-2 text-sm font-medium text-white"
+            href="/requests/new"
+          >
+            新規申請
+          </Link>
+        ) : null}
       </div>
       <RequestList
         activeStatus={activeStatus}

@@ -37,3 +37,7 @@ export async function requireRole(role: AppRole) {
 export async function requireAdmin() {
   return requireRole("admin");
 }
+
+export async function requireEmployee() {
+  return requireRole("employee");
+}
