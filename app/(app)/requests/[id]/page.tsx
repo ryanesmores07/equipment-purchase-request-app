@@ -2,10 +2,14 @@ import { notFound } from "next/navigation";
 import { ApprovalPanel } from "@/components/approval-panel";
 import { RequestStatusBadge } from "@/components/request-status-badge";
 import { requireUser } from "@/lib/auth/require-user";
-import { getProfileById } from "@/lib/repositories/profiles.repo";
 import { listCategories } from "@/lib/repositories/categories.repo";
 import { listApprovalHistory } from "@/lib/repositories/history.repo";
+import {
+  getProfileById,
+  listProfilesByIds,
+} from "@/lib/repositories/profiles.repo";
 import { getRequestById } from "@/lib/repositories/requests.repo";
+import { formatDate, formatDateTime, statusLabels } from "@/lib/ui-labels";
 
 const yenFormatter = new Intl.NumberFormat("ja-JP", {
   style: "currency",
@@ -32,6 +36,13 @@ export default async function RequestDetailPage({
 
   const history = await listApprovalHistory(supabase, request.id);
   const category = categories.find((item) => item.id === request.category_id);
+  const relatedProfileIds = [request.applicant_id, request.decided_by].filter(
+    (value): value is string => Boolean(value),
+  );
+  const relatedProfiles = await listProfilesByIds(supabase, relatedProfileIds);
+  const profileNames = Object.fromEntries(
+    relatedProfiles.map((item) => [item.id, item.full_name]),
+  );
 
   return (
     <section className="grid gap-6">
@@ -41,8 +52,7 @@ export default async function RequestDetailPage({
             {request.title}
           </h1>
           <p className="text-sm text-zinc-600">
-            Requested on{" "}
-            {new Date(request.requested_at).toLocaleDateString("ja-JP")}
+            申請日: {formatDate(request.requested_at)}
           </p>
         </div>
         <RequestStatusBadge status={request.status} />
@@ -50,32 +60,58 @@ export default async function RequestDetailPage({
       <dl className="grid gap-4 rounded-md border border-zinc-200 bg-white p-4 sm:grid-cols-2">
         <div>
           <dt className="text-xs font-medium uppercase text-zinc-500">
-            Category
+            申請者
           </dt>
           <dd className="mt-1 text-sm text-zinc-950">
-            {category?.name ?? "Unknown"}
+            {profileNames[request.applicant_id] ?? "不明"}
           </dd>
         </div>
         <div>
           <dt className="text-xs font-medium uppercase text-zinc-500">
-            Amount
+            カテゴリ
+          </dt>
+          <dd className="mt-1 text-sm text-zinc-950">
+            {category?.name ?? "不明"}
+          </dd>
+        </div>
+        <div>
+          <dt className="text-xs font-medium uppercase text-zinc-500">
+            金額
           </dt>
           <dd className="mt-1 text-sm text-zinc-950">
             {yenFormatter.format(request.amount_jpy)}
           </dd>
         </div>
+        <div>
+          <dt className="text-xs font-medium uppercase text-zinc-500">
+            判断日
+          </dt>
+          <dd className="mt-1 text-sm text-zinc-950">
+            {formatDate(request.decided_at)}
+          </dd>
+        </div>
+        {request.decided_by ? (
+          <div>
+            <dt className="text-xs font-medium uppercase text-zinc-500">
+              判断者
+            </dt>
+            <dd className="mt-1 text-sm text-zinc-950">
+              {profileNames[request.decided_by] ?? "不明"}
+            </dd>
+          </div>
+        ) : null}
         <div className="sm:col-span-2">
           <dt className="text-xs font-medium uppercase text-zinc-500">
-            Description
+            補足説明
           </dt>
           <dd className="mt-1 whitespace-pre-wrap text-sm text-zinc-950">
-            {request.description || "No description provided."}
+            {request.description || "補足説明はありません。"}
           </dd>
         </div>
         {request.decision_note ? (
           <div className="sm:col-span-2">
             <dt className="text-xs font-medium uppercase text-zinc-500">
-              Decision note
+              判断メモ
             </dt>
             <dd className="mt-1 whitespace-pre-wrap text-sm text-zinc-950">
               {request.decision_note}
@@ -88,11 +124,11 @@ export default async function RequestDetailPage({
       ) : null}
       <section className="grid gap-3">
         <h2 className="text-lg font-semibold text-zinc-950">
-          Approval history
+          承認履歴
         </h2>
         {history.length === 0 ? (
           <p className="rounded-md border border-zinc-200 bg-white p-4 text-sm text-zinc-600">
-            No decision history yet.
+            まだ承認履歴はありません。
           </p>
         ) : (
           <ol className="grid gap-2">
@@ -102,10 +138,11 @@ export default async function RequestDetailPage({
                 key={item.id}
               >
                 <span className="font-medium text-zinc-950">
-                  {item.from_status} to {item.to_status}
+                  {statusLabels[item.from_status]}から
+                  {statusLabels[item.to_status]}へ変更
                 </span>
                 <span className="ml-2 text-zinc-500">
-                  {new Date(item.acted_at).toLocaleString("ja-JP")}
+                  {formatDateTime(item.acted_at)}
                 </span>
                 {item.note ? (
                   <p className="mt-2 whitespace-pre-wrap text-zinc-700">

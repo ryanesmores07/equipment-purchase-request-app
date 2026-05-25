@@ -1,4 +1,5 @@
 import type { PurchaseRequestStatus } from "@/lib/repositories/types";
+import { statusLabels } from "@/lib/ui-labels";
 
 const statusClassName: Record<PurchaseRequestStatus, string> = {
   pending: "border-amber-200 bg-amber-50 text-amber-800",
@@ -15,7 +16,7 @@ export function RequestStatusBadge({
     <span
       className={`inline-flex rounded-md border px-2 py-1 text-xs font-medium ${statusClassName[status]}`}
     >
-      {status}
+      {statusLabels[status]}
     </span>
   );
 }

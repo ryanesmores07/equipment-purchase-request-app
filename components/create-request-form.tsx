@@ -23,7 +23,7 @@ export function CreateRequestForm({
     <form action={formAction} className="grid max-w-2xl gap-5">
       <div className="grid gap-2">
         <label className="text-sm font-medium text-zinc-700" htmlFor="title">
-          Title
+          申請タイトル
         </label>
         <input
           className="rounded-md border border-zinc-300 px-3 py-2 text-sm outline-none focus:border-zinc-900"
@@ -41,7 +41,7 @@ export function CreateRequestForm({
           className="text-sm font-medium text-zinc-700"
           htmlFor="categoryId"
         >
-          Category
+          カテゴリ
         </label>
         <select
           className="rounded-md border border-zinc-300 px-3 py-2 text-sm outline-none focus:border-zinc-900"
@@ -49,7 +49,7 @@ export function CreateRequestForm({
           name="categoryId"
           required
         >
-          <option value="">Select category</option>
+          <option value="">カテゴリを選択</option>
           {categories.map((category) => (
             <option key={category.id} value={category.id}>
               {category.name}
@@ -67,7 +67,7 @@ export function CreateRequestForm({
           className="text-sm font-medium text-zinc-700"
           htmlFor="amountJpy"
         >
-          Amount JPY
+          金額（円）
         </label>
         <input
           className="rounded-md border border-zinc-300 px-3 py-2 text-sm outline-none focus:border-zinc-900"
@@ -89,7 +89,7 @@ export function CreateRequestForm({
           className="text-sm font-medium text-zinc-700"
           htmlFor="description"
         >
-          Description
+          補足説明
         </label>
         <textarea
           className="min-h-32 rounded-md border border-zinc-300 px-3 py-2 text-sm outline-none focus:border-zinc-900"
@@ -113,7 +113,7 @@ export function CreateRequestForm({
         disabled={pending}
         type="submit"
       >
-        {pending ? "Creating..." : "Create request"}
+        {pending ? "作成中..." : "申請を作成"}
       </button>
     </form>
   );

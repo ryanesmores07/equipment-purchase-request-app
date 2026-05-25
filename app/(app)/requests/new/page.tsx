@@ -10,10 +10,10 @@ export default async function NewRequestPage() {
     <section className="grid gap-6">
       <div>
         <h1 className="text-2xl font-semibold text-zinc-950">
-          New purchase request
+          新規購入申請
         </h1>
         <p className="text-sm text-zinc-600">
-          Submit equipment, software, or learning purchases for review.
+          備品、ソフトウェア、学習教材などの購入内容を入力してください。
         </p>
       </div>
       <CreateRequestForm categories={categories} />

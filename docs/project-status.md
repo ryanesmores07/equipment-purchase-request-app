@@ -66,13 +66,14 @@ This file is the project memory for implementation work. Update it after every m
 | 2026-05-22 | Spec noise cleanup | `epr-senior-orchestrator` | Removed the speculative "Explicitly NOT used" tool list from the design spec because no checked-in requirement asks for that list. Kept practical README known limits. | `rg` search found no requirement for unused-tool justifications; docs-only change. | Keep submission/handoff focused on implemented UI/UX strengths and real known limits. |
 | 2026-05-22 | Japanese-first README | `epr-reproducibility-qa` | Reworked `README.md` to put Japanese setup, reviewer credentials, walkthrough, verification, known limits, and UI/UX deep-dive first, with a compact English summary after. | Docs-only change; checked README against `.env.example` and `package.json` scripts. | Run final README scan and keep submission message Japanese-friendly. |
 | 2026-05-22 | UI polish plan handoff | `epr-senior-orchestrator` | Added `docs/superpowers/plans/2026-05-22-ui-polish-batch.md` for the next UI/UX batch (Japanese copy, admin filters, approval UX). Staged related deep-dive doc/skill wording updates for cross-machine work on `dev`. | Docs-only; plan not implemented yet. | Pull `dev` on the other machine and execute the UI polish plan batch. |
+| 2026-05-25 | UI/UX polish implementation | `epr-request-ui` + `frontend-skill` | Added Japanese-first app copy, shared UI labels, admin status filters, applicant names in admin lists/details, clearer detail metadata/history labels, and improved approval panel guidance. | `pnpm lint`, `pnpm typecheck`, `pnpm test` (13 tests), and `pnpm build` passed. Browser smoke confirmed `/login` renders on `localhost:3001` after clearing stale `.next`; full auth walkthrough was not completed through browser automation. | Run a final manual employee/admin walkthrough in the browser, then commit and submit. |
+| 2026-05-25 | UI polish checkpoint | `epr-request-ui` | Re-verified the uncommitted UI polish before starting edit/cancel work. Accepted as a separate checkpoint because the localized login/list surfaces render and command checks pass. | `pnpm lint`, `pnpm typecheck`, `pnpm test` (13 tests), and `pnpm build` passed. Browser automation logged in as employee and rendered `/requests`; create-request submit bounced back to `/login` in headless automation, so full manual walkthrough remains open. | Commit UI polish checkpoint, then start Batch 1 navigation UX. |
 
 ## Next Execution Batch
 
-UI/UX polish (plan: `docs/superpowers/plans/2026-05-22-ui-polish-batch.md`):
+Final manual walkthrough:
 
-- Pull latest `dev` before starting on the other computer.
-- Implement Japanese-first UI copy, admin status filter, applicant column, and approval UX improvements per the plan.
-- Verify with `pnpm lint`, `pnpm typecheck`, `pnpm test`, and `pnpm build`.
-- Update this status file after the batch; submit only after the UI polish walkthrough is done.
+- Start the app locally and verify the employee create-request flow plus admin filter/approve/reject flow in the browser.
+- Commit the UI/UX polish batch after the manual walkthrough passes.
+- Submit with the repo URL and reviewer credentials from README.
 - Never commit `.env.local` or Supabase secrets.

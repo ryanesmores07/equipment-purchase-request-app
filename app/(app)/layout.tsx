@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { logoutAction } from "@/app/(auth)/login/actions";
-import { getProfileById } from "@/lib/repositories/profiles.repo";
 import { requireUser } from "@/lib/auth/require-user";
+import { getProfileById } from "@/lib/repositories/profiles.repo";
+import { roleLabels } from "@/lib/ui-labels";
 
 export default async function AppLayout({
   children,
@@ -16,26 +17,26 @@ export default async function AppLayout({
       <header className="border-b border-zinc-200 bg-white">
         <nav className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-3 px-4 py-3">
           <Link className="font-semibold text-zinc-950" href="/requests">
-            Equipment Requests
+            備品購入申請
           </Link>
           <div className="flex flex-wrap items-center gap-3 text-sm">
             {profile ? (
               <span className="text-zinc-600">
-                {profile.full_name} · {profile.role}
+                {profile.full_name} / {roleLabels[profile.role]}
               </span>
             ) : null}
             <Link
               className="rounded-md border border-zinc-300 px-3 py-1.5 font-medium text-zinc-800"
               href="/requests/new"
             >
-              New request
+              新規申請
             </Link>
             <form action={logoutAction}>
               <button
                 className="rounded-md bg-zinc-900 px-3 py-1.5 font-medium text-white"
                 type="submit"
               >
-                Logout
+                ログアウト
               </button>
             </form>
           </div>

@@ -20,3 +20,26 @@ export async function getProfileById(
 
   return data;
 }
+
+export async function listProfilesByIds(
+  supabase: SupabaseServerClient,
+  ids: string[],
+): Promise<ProfileRow[]> {
+  const uniqueIds = Array.from(new Set(ids));
+
+  if (uniqueIds.length === 0) {
+    return [];
+  }
+
+  const { data, error } = await supabase
+    .from("profiles")
+    .select("id,email,full_name,role,created_at")
+    .in("id", uniqueIds);
+
+  if (error) {
+    console.error({ op: "list-profiles-by-ids", count: uniqueIds.length, error });
+    throw new Error("Failed to load applicant profiles.");
+  }
+
+  return data ?? [];
+}

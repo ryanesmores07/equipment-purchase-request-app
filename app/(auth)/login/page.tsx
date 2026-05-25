@@ -6,10 +6,10 @@ export default function LoginPage() {
       <section className="w-full max-w-sm rounded-md border border-zinc-200 bg-white p-6 shadow-sm">
         <div className="mb-6 grid gap-1">
           <h1 className="text-xl font-semibold text-zinc-950">
-            Equipment Purchase Requests
+            備品購入申請
           </h1>
           <p className="text-sm text-zinc-600">
-            Sign in with a seeded employee or admin account.
+            申請者または管理者のレビュー用アカウントでログインしてください。
           </p>
         </div>
         <LoginForm />

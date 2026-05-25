@@ -16,16 +16,26 @@ type DecideRequestParams = {
   decisionNote?: string;
 };
 
+type ListRequestsParams = {
+  status?: PurchaseRequestStatus;
+};
+
 export async function listRequests(
   supabase: SupabaseServerClient,
+  params: ListRequestsParams = {},
 ): Promise<PurchaseRequestRow[]> {
-  const { data, error } = await supabase
+  let query = supabase
     .from("purchase_requests")
     .select(
       "id,applicant_id,category_id,title,description,amount_jpy,status,requested_at,decided_at,decided_by,decision_note",
     )
-    .order("requested_at", { ascending: false })
-    .limit(100);
+    .order("requested_at", { ascending: false });
+
+  if (params.status) {
+    query = query.eq("status", params.status);
+  }
+
+  const { data, error } = await query.limit(100);
 
   if (error) {
     console.error({ op: "list-requests", error });

@@ -48,7 +48,7 @@ export async function createRequestAction(
     requestId = request.id;
   } catch (error) {
     console.error({ op: "create-request-action", userId: user.id, error });
-    return { formError: "Could not create the request." };
+    return { formError: "申請を作成できませんでした。" };
   }
 
   revalidatePath("/requests");
@@ -73,11 +73,11 @@ export async function decideRequestAction(
   const current = await getRequestById(supabase, requestId);
 
   if (!current) {
-    return { formError: "Request not found." };
+    return { formError: "申請が見つかりません。" };
   }
 
   if (!canTransition(current.status, parsed.data.status)) {
-    return { formError: "This status transition is not allowed." };
+    return { formError: "この申請はすでに判断済みです。" };
   }
 
   try {
@@ -89,7 +89,7 @@ export async function decideRequestAction(
     });
   } catch (error) {
     console.error({ op: "decide-request-action", requestId, userId: user.id, error });
-    return { formError: "Could not update the request decision." };
+    return { formError: "申請の判断を更新できませんでした。" };
   }
 
   revalidatePath("/requests");

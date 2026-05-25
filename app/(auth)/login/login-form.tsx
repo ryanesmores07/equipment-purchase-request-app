@@ -15,7 +15,7 @@ export function LoginForm() {
     <form action={formAction} className="grid gap-4">
       <div className="grid gap-2">
         <label className="text-sm font-medium text-zinc-700" htmlFor="email">
-          Email
+          メールアドレス
         </label>
         <input
           id="email"
@@ -28,7 +28,7 @@ export function LoginForm() {
       </div>
       <div className="grid gap-2">
         <label className="text-sm font-medium text-zinc-700" htmlFor="password">
-          Password
+          パスワード
         </label>
         <input
           id="password"
@@ -49,7 +49,7 @@ export function LoginForm() {
         disabled={pending}
         className="rounded-md bg-zinc-900 px-4 py-2 text-sm font-medium text-white disabled:cursor-not-allowed disabled:bg-zinc-400"
       >
-        {pending ? "Signing in..." : "Sign in"}
+        {pending ? "ログイン中..." : "ログイン"}
       </button>
     </form>
   );

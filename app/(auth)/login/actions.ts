@@ -15,7 +15,7 @@ export async function loginAction(
   const password = String(formData.get("password") ?? "");
 
   if (!email || !password) {
-    return { error: "Email and password are required." };
+    return { error: "メールアドレスとパスワードを入力してください。" };
   }
 
   const supabase = await getSupabaseServerClient();
@@ -26,7 +26,7 @@ export async function loginAction(
 
   if (error) {
     console.error({ op: "login", email, error });
-    return { error: "Invalid email or password." };
+    return { error: "メールアドレスまたはパスワードが正しくありません。" };
   }
 
   redirect("/requests");

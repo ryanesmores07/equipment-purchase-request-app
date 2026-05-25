@@ -15,14 +15,23 @@ export function ApprovalPanel({ requestId }: { requestId: string }) {
   );
 
   return (
-    <form action={formAction} className="grid gap-4 rounded-md border border-zinc-200 bg-white p-4">
+    <form
+      action={formAction}
+      className="grid gap-4 rounded-md border border-zinc-200 bg-white p-4"
+    >
       <input name="requestId" type="hidden" value={requestId} />
+      <div>
+        <h2 className="text-lg font-semibold text-zinc-950">管理者判断</h2>
+        <p className="mt-1 text-sm text-zinc-600">
+          承認する場合はメモなしで送信できます。却下する場合は理由を入力してください。
+        </p>
+      </div>
       <div className="grid gap-2">
         <label
           className="text-sm font-medium text-zinc-700"
           htmlFor="decisionNote"
         >
-          Decision note
+          判断メモ
         </label>
         <textarea
           className="min-h-24 rounded-md border border-zinc-300 px-3 py-2 text-sm outline-none focus:border-zinc-900"
@@ -49,7 +58,7 @@ export function ApprovalPanel({ requestId }: { requestId: string }) {
           type="submit"
           value="approved"
         >
-          Approve
+          {pending ? "送信中..." : "承認する"}
         </button>
         <button
           className="rounded-md bg-red-700 px-4 py-2 text-sm font-medium text-white disabled:cursor-not-allowed disabled:bg-zinc-400"
@@ -58,7 +67,7 @@ export function ApprovalPanel({ requestId }: { requestId: string }) {
           type="submit"
           value="rejected"
         >
-          Reject
+          {pending ? "送信中..." : "却下する"}
         </button>
       </div>
     </form>
