@@ -51,3 +51,19 @@ export type ApprovalHistoryRow = {
   note: string | null;
   acted_at: string;
 };
+
+export type RequestActivityAction =
+  | "created"
+  | "edited"
+  | "cancelled"
+  | "approved"
+  | "rejected";
+
+export type RequestActivityRow = {
+  id: string;
+  request_id: string;
+  actor_id: string;
+  action: RequestActivityAction;
+  note: string | null;
+  acted_at: string;
+};

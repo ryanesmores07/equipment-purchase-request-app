@@ -2,7 +2,7 @@
 
 Next.js 15 + Supabase で作成した、社内備品購入申請のプロトタイプです。
 
-社員は備品・ソフトウェア・学習教材などの購入申請を作成できます。管理者は全申請を確認し、未承認の申請を承認または却下できます。申請詳細では承認履歴も確認できます。
+社員は備品・ソフトウェア・学習教材などの購入申請を作成できます。未判断の申請は社員本人が編集またはキャンセルできます。管理者は全申請を確認し、未承認の申請を承認または却下できます。申請詳細ではアクティビティ履歴も確認できます。
 
 ## 技術スタック
 
@@ -21,8 +21,9 @@ Supabase Cloud を使うため、ローカル Docker は不要です。レビュ
 主な実装内容:
 
 - ログイン、申請一覧、申請作成、申請詳細、管理者承認パネルまでの一連の申請フロー
-- `pending`、`approved`、`rejected` の状態が分かりやすい表示
-- 申請詳細での承認履歴表示
+- `pending`、`approved`、`rejected`、`cancelled` の状態が分かりやすい表示
+- 未判断申請の編集・キャンセル
+- 申請詳細でのアクティビティ履歴表示
 - 入力項目に近い位置でのバリデーションエラー表示
 - レスポンシブな画面レイアウト
 - ルート単位の loading / error 状態
@@ -34,19 +35,22 @@ Supabase Cloud を使うため、ローカル Docker は不要です。レビュ
 
 - `profiles`: Supabase Auth ユーザーに紐づくプロフィール。`employee` または `admin` ロールを持ちます。
 - `categories`: 申請カテゴリ。
-- `purchase_requests`: 申請内容と `pending` / `approved` / `rejected` の承認状態。
-- `approval_history`: 管理者が状態を変更したときに追加される監査履歴。
+- `purchase_requests`: 申請内容と `pending` / `approved` / `rejected` / `cancelled` の状態。
+- `approval_history`: 管理者判断やキャンセル時に追加される既存の状態変更履歴。
+- `request_activity`: 作成・編集・キャンセル・承認・却下を表示するユーザー向け履歴。
 
 状態遷移はシンプルにしています。
 
 ```text
 pending -> approved
 pending -> rejected
+pending -> cancelled
 approved -> terminal
 rejected -> terminal
+cancelled -> terminal
 ```
 
-却下時は理由の入力が必須です。作成済みの申請内容は編集不可です。
+却下時は理由の入力が必須です。編集とキャンセルは `pending` の申請本人だけが実行できます。承認済み・却下済み・キャンセル済みの申請はロックされます。
 
 ## セットアップ
 
@@ -110,10 +114,11 @@ pnpm dev
 
 1. 社員ユーザーでログインします。
 2. `/requests/new` から購入申請を作成します。
-3. ログアウトし、管理者ユーザーでログインします。
-4. 申請詳細ページを開きます。
-5. 未承認の申請を承認または却下します。
-6. 状態表示と承認履歴が更新されていることを確認します。
+3. 未判断の申請を編集またはキャンセルできることを確認します。
+4. ログアウトし、管理者ユーザーでログインします。
+5. 申請詳細ページを開きます。
+6. 未承認の申請を承認または却下します。
+7. 状態表示とアクティビティ履歴が更新されていることを確認します。
 
 ## スクリプト
 
@@ -139,7 +144,7 @@ pnpm test
 pnpm build
 ```
 
-リンク済み Supabase Cloud プロジェクトでも、マイグレーション適用、レビュアーユーザー作成、社員の申請作成、管理者の承認フロー、承認履歴の保存を確認済みです。
+リンク済み Supabase Cloud プロジェクトでも、マイグレーション適用、レビュアーユーザー作成、社員の申請作成・編集・キャンセル、管理者の承認フロー、アクティビティ履歴の保存を確認済みです。
 
 ## 既知の制限
 
@@ -156,7 +161,7 @@ pnpm build
 
 This is a Next.js 15 + Supabase prototype for an internal equipment purchase request workflow.
 
-Employees can create purchase requests. Admins can review all requests, approve or reject pending requests, and see approval history.
+Employees can create, edit, and cancel their own pending purchase requests. Admins can review all requests, approve or reject pending requests, and see the activity timeline.
 
 The selected deep-dive area is **UI/UX and front-end development**. The main reviewer-facing focus is the request workflow: login, request list, request creation, detail view, admin approval panel, clear statuses, validation feedback, responsive layout, and route-level loading/error states.
 

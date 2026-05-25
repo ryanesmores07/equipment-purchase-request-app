@@ -5,13 +5,13 @@ import { CancelRequestForm } from "@/components/cancel-request-form";
 import { RequestStatusBadge } from "@/components/request-status-badge";
 import { requireUser } from "@/lib/auth/require-user";
 import { listCategories } from "@/lib/repositories/categories.repo";
-import { listApprovalHistory } from "@/lib/repositories/history.repo";
+import { listRequestActivity } from "@/lib/repositories/history.repo";
 import {
   getProfileById,
   listProfilesByIds,
 } from "@/lib/repositories/profiles.repo";
 import { getRequestById } from "@/lib/repositories/requests.repo";
-import { formatDate, formatDateTime, statusLabels } from "@/lib/ui-labels";
+import { activityLabels, formatDate, formatDateTime } from "@/lib/ui-labels";
 
 const yenFormatter = new Intl.NumberFormat("ja-JP", {
   style: "currency",
@@ -36,12 +36,13 @@ export default async function RequestDetailPage({
     notFound();
   }
 
-  const history = await listApprovalHistory(supabase, request.id);
+  const activity = await listRequestActivity(supabase, request.id);
   const category = categories.find((item) => item.id === request.category_id);
   const relatedProfileIds = [
     request.applicant_id,
     request.decided_by,
     request.cancelled_by,
+    ...activity.map((item) => item.actor_id),
   ].filter((value): value is string => Boolean(value));
   const relatedProfiles = await listProfilesByIds(supabase, relatedProfileIds);
   const profileNames = Object.fromEntries(
@@ -197,26 +198,28 @@ export default async function RequestDetailPage({
       ) : null}
       <section className="grid gap-3">
         <h2 className="text-lg font-semibold text-zinc-950">
-          承認履歴
+          アクティビティ
         </h2>
-        {history.length === 0 ? (
+        {activity.length === 0 ? (
           <p className="rounded-md border border-zinc-200 bg-white p-4 text-sm text-zinc-600">
-            まだ承認履歴はありません。
+            まだアクティビティはありません。
           </p>
         ) : (
           <ol className="grid gap-2">
-            {history.map((item) => (
+            {activity.map((item) => (
               <li
                 className="rounded-md border border-zinc-200 bg-white p-4 text-sm"
                 key={item.id}
               >
                 <span className="font-medium text-zinc-950">
-                  {statusLabels[item.from_status]}から
-                  {statusLabels[item.to_status]}へ変更
+                  {activityLabels[item.action]}
                 </span>
                 <span className="ml-2 text-zinc-500">
                   {formatDateTime(item.acted_at)}
                 </span>
+                <p className="mt-1 text-zinc-600">
+                  {profileNames[item.actor_id] ?? "不明"}
+                </p>
                 {item.note ? (
                   <p className="mt-2 whitespace-pre-wrap text-zinc-700">
                     {item.note}

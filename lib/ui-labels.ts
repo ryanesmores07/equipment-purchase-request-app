@@ -17,6 +17,14 @@ export const statusFilterLabels = {
   ...statusLabels,
 } as const;
 
+export const activityLabels = {
+  created: "申請を作成",
+  edited: "申請を編集",
+  cancelled: "申請をキャンセル",
+  approved: "申請を承認",
+  rejected: "申請を却下",
+} as const;
+
 export function formatDate(value: string | null) {
   if (!value) {
     return "未定";
