@@ -79,19 +79,13 @@ This file is the project memory for implementation work. Update it after every m
 | 2026-05-25 | Batch 9 loading-state and nav cleanup | `epr-request-ui` | Removed the duplicate employee `新規申請` action from the global nav so the dashboard body remains the primary create path. Added shared accessible loading skeletons for list, detail, new-request, and edit-request routes. | `pnpm lint`, `pnpm typecheck`, `pnpm test` (22 tests), and `pnpm build` passed. | Pause-safe stopping point: loading-state coverage and nav cleanup are implemented; next work should be final browser walkthrough and push handoff. |
 | 2026-05-25 | Batch 10 mobile admin list UX | `epr-request-ui` | Added pending feedback when admins switch status filters, improved the authenticated mobile header layout, and replaced the mobile request table with tappable request cards that make `申請内容` clearly open the detail page. Did not add a custom cache because the list is auth/RLS-sensitive and should stay fresh; Next route loading/prefetch behavior remains the appropriate baseline. | `pnpm lint`, `pnpm typecheck`, `pnpm test` (22 tests), and `pnpm build` passed after clearing stale generated `.next` cache. Browser plugin QA was blocked by a Playwright profile lock, and repo-local Playwright is not installed. | Final manual browser walkthrough on mobile/admin surfaces, then push handoff. |
 
+| 2026-05-26 | Mobile overflow hardening | `epr-request-ui` | Centralized request input limits, aligned form `maxLength`/amount limits with Zod validation, and hardened mobile list/detail/form surfaces with `min-w-0`, full-width mobile controls, fixed mobile metadata grids, and `overflow-wrap:anywhere` for long unbroken user text. | `pnpm lint`, `pnpm typecheck`, `pnpm test` (22 tests), `pnpm build`, and browser QA on `390px` mobile viewport passed. Browser created long-title request `3a5f3ee9-087b-42a9-93c6-4c0f55667254`; `/requests` and detail page both reported no horizontal overflow. | Continue final reviewer walkthrough/admin checks, then push handoff. |
+| 2026-05-26 | Final submission audit and cleanup | `epr-senior-orchestrator` + `epr-reproducibility-qa` | Removed unused starter public SVGs, set the app document language to Japanese, replaced the stale design spec with a concise current-state spec, verified repo docs against the Notion assignment, and removed browser temp output. | `pnpm lint`, `pnpm typecheck`, `pnpm test` (22 tests), `pnpm build` passed. Production browser checks on `127.0.0.1:3001` verified employee/admin/employee2 list rendering, admin `/requests/new` redirect, no horizontal overflow, and no browser console errors. Signed-in Supabase client audit verified employee create/edit/cancel, employee isolation, admin approval, approval history, activity rows, and admin create blocked by RLS. Supabase advisors: one Auth warning for leaked-password protection disabled; performance only fresh-project unused-index info. | Ready to submit after committing/pushing this final audit batch. |
+
 ## Next Execution Batch
 
-Final reviewer walkthrough and handoff:
+Submit handoff:
 
-- Start the app locally and verify employee create/edit/cancel plus admin approve/reject in the browser.
-- Confirm admins cannot see or access request creation.
-- Confirm Employee 1 and Employee 2 see only their own requests while Admin sees both.
-- Confirm success banners appear after create/edit/cancel/approve/reject actions.
-- Confirm admin pending count is easy to see.
-- Confirm list/detail/new/edit route loading states render cleanly.
-- Confirm admin status-filter pending feedback appears when switching tabs.
-- Confirm the mobile authenticated header wraps cleanly.
-- Confirm mobile request cards make `申請内容` obviously tappable and navigate to detail pages.
-- Confirm the activity timeline updates for created, edited, cancelled, approved, and rejected events, including before/after edit details.
-- Submit with the repo URL and reviewer credentials from README.
+- Commit and push the final audit batch on `dev`.
+- Submit the GitHub repository URL and reviewer credentials from `README.md`.
 - Never commit `.env.local` or Supabase secrets.

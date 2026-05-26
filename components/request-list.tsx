@@ -34,11 +34,11 @@ export function RequestList({
   );
 
   return (
-    <section className="grid gap-3">
+    <section className="grid min-w-0 gap-3">
       {isAdmin ? <StatusFilterNav activeStatus={activeStatus} /> : null}
 
       {requests.length === 0 ? (
-        <div className="rounded-md border border-zinc-200 bg-white p-6 text-sm text-zinc-600">
+        <div className="min-w-0 rounded-md border border-zinc-200 bg-white p-6 text-sm text-zinc-600 [overflow-wrap:anywhere]">
           {activeStatus
             ? `${statusFilterLabels[activeStatus]}の申請はありません。`
             : "表示できる申請はまだありません。"}
@@ -48,16 +48,16 @@ export function RequestList({
           <div className="grid gap-3 md:hidden">
             {requests.map((request) => (
               <Link
-                className="block rounded-md border border-zinc-200 bg-white p-4 shadow-sm transition hover:border-zinc-400 hover:shadow"
+                className="block min-w-0 rounded-md border border-zinc-200 bg-white p-4 shadow-sm transition hover:border-zinc-400 hover:shadow"
                 href={`/requests/${request.id}`}
                 key={request.id}
               >
-                <div className="flex items-start justify-between gap-3">
+                <div className="flex min-w-0 items-start justify-between gap-3">
                   <div className="min-w-0">
                     <p className="text-xs font-medium text-zinc-500">
                       申請内容
                     </p>
-                    <h2 className="mt-1 break-words text-base font-semibold text-zinc-950">
+                    <h2 className="mt-1 break-words text-base font-semibold text-zinc-950 [overflow-wrap:anywhere]">
                       {request.title}
                     </h2>
                   </div>
@@ -65,28 +65,28 @@ export function RequestList({
                 </div>
                 <dl className="mt-4 grid gap-2 text-sm text-zinc-600">
                   {isAdmin ? (
-                    <div className="flex justify-between gap-3">
+                    <div className="grid grid-cols-[minmax(0,7rem)_minmax(0,1fr)] gap-3">
                       <dt>申請者</dt>
-                      <dd className="font-medium text-zinc-800">
+                      <dd className="min-w-0 text-right font-medium text-zinc-800 [overflow-wrap:anywhere]">
                         {applicantNames[request.applicant_id] ?? "不明"}
                       </dd>
                     </div>
                   ) : null}
-                  <div className="flex justify-between gap-3">
+                  <div className="grid grid-cols-[minmax(0,7rem)_minmax(0,1fr)] gap-3">
                     <dt>カテゴリ</dt>
-                    <dd className="font-medium text-zinc-800">
+                    <dd className="min-w-0 text-right font-medium text-zinc-800 [overflow-wrap:anywhere]">
                       {categoryNames.get(request.category_id) ?? "不明"}
                     </dd>
                   </div>
-                  <div className="flex justify-between gap-3">
+                  <div className="grid grid-cols-[minmax(0,7rem)_minmax(0,1fr)] gap-3">
                     <dt>金額</dt>
-                    <dd className="font-medium text-zinc-800">
+                    <dd className="min-w-0 text-right font-medium text-zinc-800 [overflow-wrap:anywhere]">
                       {yenFormatter.format(request.amount_jpy)}
                     </dd>
                   </div>
-                  <div className="flex justify-between gap-3">
+                  <div className="grid grid-cols-[minmax(0,7rem)_minmax(0,1fr)] gap-3">
                     <dt>申請日</dt>
-                    <dd className="font-medium text-zinc-800">
+                    <dd className="min-w-0 text-right font-medium text-zinc-800 [overflow-wrap:anywhere]">
                       {formatDate(request.requested_at)}
                     </dd>
                   </div>
@@ -114,20 +114,20 @@ export function RequestList({
             <tbody>
               {requests.map((request) => (
                 <tr className="border-b border-zinc-100" key={request.id}>
-                  <td className="px-4 py-3 font-medium text-zinc-950">
+                  <td className="max-w-[24rem] px-4 py-3 font-medium text-zinc-950">
                     <Link
-                      className="underline-offset-4 hover:underline"
+                      className="break-words underline-offset-4 [overflow-wrap:anywhere] hover:underline"
                       href={`/requests/${request.id}`}
                     >
                       {request.title}
                     </Link>
                   </td>
                   {isAdmin ? (
-                    <td className="px-4 py-3 text-zinc-600">
+                    <td className="max-w-[12rem] px-4 py-3 text-zinc-600 [overflow-wrap:anywhere]">
                       {applicantNames[request.applicant_id] ?? "不明"}
                     </td>
                   ) : null}
-                  <td className="px-4 py-3 text-zinc-600">
+                  <td className="max-w-[10rem] px-4 py-3 text-zinc-600 [overflow-wrap:anywhere]">
                     {categoryNames.get(request.category_id) ?? "不明"}
                   </td>
                   <td className="px-4 py-3 text-zinc-600">

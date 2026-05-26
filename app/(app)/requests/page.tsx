@@ -45,13 +45,13 @@ export default async function RequestsPage({
   );
 
   return (
-    <section className="grid gap-6">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <h1 className="text-2xl font-semibold text-zinc-950">
+    <section className="grid min-w-0 gap-6">
+      <div className="flex min-w-0 flex-wrap items-center justify-between gap-3">
+        <div className="min-w-0">
+          <h1 className="break-words text-2xl font-semibold text-zinc-950 [overflow-wrap:anywhere]">
             申請一覧
           </h1>
-          <p className="text-sm text-zinc-600">
+          <p className="break-words text-sm text-zinc-600 [overflow-wrap:anywhere]">
             {isAdmin
               ? "全社員の申請を確認し、状態で絞り込めます。"
               : "自分が作成した購入申請を確認できます。"}
@@ -59,7 +59,7 @@ export default async function RequestsPage({
         </div>
         {!isAdmin ? (
           <Link
-            className="rounded-md bg-zinc-900 px-4 py-2 text-sm font-medium text-white"
+            className="w-full rounded-md bg-zinc-900 px-4 py-2 text-center text-sm font-medium text-white sm:w-auto"
             href="/requests/new"
           >
             新規申請
@@ -67,7 +67,7 @@ export default async function RequestsPage({
         ) : null}
       </div>
       {isAdmin ? (
-        <div className="rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950">
+        <div className="min-w-0 rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950 [overflow-wrap:anywhere]">
           {pendingCount > 0 ? (
             <>
               対応待ちの申請が

@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { requestInputLimits } from "@/lib/request-limits";
 
 const optionalTrimmedText = (maxLength: number) =>
   z.preprocess(
@@ -15,9 +16,9 @@ const optionalTrimmedText = (maxLength: number) =>
 
 export const createRequestSchema = z.object({
   categoryId: z.uuid(),
-  title: z.string().trim().min(1).max(120),
-  description: optionalTrimmedText(1000),
-  amountJpy: z.coerce.number().int().positive().max(10000000),
+  title: z.string().trim().min(1).max(requestInputLimits.title),
+  description: optionalTrimmedText(requestInputLimits.description),
+  amountJpy: z.coerce.number().int().positive().max(requestInputLimits.amountJpy),
 });
 
 export const updateRequestSchema = createRequestSchema;
@@ -25,7 +26,7 @@ export const updateRequestSchema = createRequestSchema;
 export const decideRequestSchema = z
   .object({
     status: z.enum(["approved", "rejected"]),
-    decisionNote: optionalTrimmedText(500),
+    decisionNote: optionalTrimmedText(requestInputLimits.decisionNote),
   })
   .superRefine((value, ctx) => {
     if (value.status === "rejected" && !value.decisionNote) {
@@ -38,7 +39,7 @@ export const decideRequestSchema = z
   });
 
 export const cancelRequestSchema = z.object({
-  cancellationNote: optionalTrimmedText(500),
+  cancellationNote: optionalTrimmedText(requestInputLimits.cancellationNote),
   confirmCancel: z.literal("on"),
 });
 

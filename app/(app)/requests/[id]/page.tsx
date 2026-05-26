@@ -63,7 +63,7 @@ export default async function RequestDetailPage({
   const isLocked = !isPending;
 
   return (
-    <section className="grid gap-6">
+    <section className="grid min-w-0 gap-6">
       {feedbackResult ? <ActionFeedbackBanner result={feedbackResult} /> : null}
       <div>
         <Link
@@ -73,9 +73,9 @@ export default async function RequestDetailPage({
           申請一覧に戻る
         </Link>
       </div>
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <h1 className="text-2xl font-semibold text-zinc-950">
+      <div className="flex min-w-0 flex-wrap items-center justify-between gap-3">
+        <div className="min-w-0">
+          <h1 className="break-words text-2xl font-semibold text-zinc-950 [overflow-wrap:anywhere]">
             {request.title}
           </h1>
           <p className="text-sm text-zinc-600">
@@ -84,93 +84,93 @@ export default async function RequestDetailPage({
         </div>
         <RequestStatusBadge status={request.status} />
       </div>
-      <dl className="grid gap-4 rounded-md border border-zinc-200 bg-white p-4 sm:grid-cols-2">
-        <div>
+      <dl className="grid min-w-0 gap-4 rounded-md border border-zinc-200 bg-white p-4 sm:grid-cols-2">
+        <div className="min-w-0">
           <dt className="text-xs font-medium uppercase text-zinc-500">
             申請者
           </dt>
-          <dd className="mt-1 text-sm text-zinc-950">
+          <dd className="mt-1 break-words text-sm text-zinc-950 [overflow-wrap:anywhere]">
             {profileNames[request.applicant_id] ?? "不明"}
           </dd>
         </div>
-        <div>
+        <div className="min-w-0">
           <dt className="text-xs font-medium uppercase text-zinc-500">
             カテゴリ
           </dt>
-          <dd className="mt-1 text-sm text-zinc-950">
+          <dd className="mt-1 break-words text-sm text-zinc-950 [overflow-wrap:anywhere]">
             {category?.name ?? "不明"}
           </dd>
         </div>
-        <div>
+        <div className="min-w-0">
           <dt className="text-xs font-medium uppercase text-zinc-500">
             金額
           </dt>
-          <dd className="mt-1 text-sm text-zinc-950">
+          <dd className="mt-1 break-words text-sm text-zinc-950 [overflow-wrap:anywhere]">
             {yenFormatter.format(request.amount_jpy)}
           </dd>
         </div>
-        <div>
+        <div className="min-w-0">
           <dt className="text-xs font-medium uppercase text-zinc-500">
             判断日
           </dt>
-          <dd className="mt-1 text-sm text-zinc-950">
+          <dd className="mt-1 break-words text-sm text-zinc-950 [overflow-wrap:anywhere]">
             {formatDate(request.decided_at)}
           </dd>
         </div>
         {request.decided_by ? (
-          <div>
+          <div className="min-w-0">
             <dt className="text-xs font-medium uppercase text-zinc-500">
               判断者
             </dt>
-            <dd className="mt-1 text-sm text-zinc-950">
+            <dd className="mt-1 break-words text-sm text-zinc-950 [overflow-wrap:anywhere]">
               {profileNames[request.decided_by] ?? "不明"}
             </dd>
           </div>
         ) : null}
         {request.cancelled_at ? (
-          <div>
+          <div className="min-w-0">
             <dt className="text-xs font-medium uppercase text-zinc-500">
               キャンセル日
             </dt>
-            <dd className="mt-1 text-sm text-zinc-950">
+            <dd className="mt-1 break-words text-sm text-zinc-950 [overflow-wrap:anywhere]">
               {formatDate(request.cancelled_at)}
             </dd>
           </div>
         ) : null}
         {request.cancelled_by ? (
-          <div>
+          <div className="min-w-0">
             <dt className="text-xs font-medium uppercase text-zinc-500">
               キャンセル者
             </dt>
-            <dd className="mt-1 text-sm text-zinc-950">
+            <dd className="mt-1 break-words text-sm text-zinc-950 [overflow-wrap:anywhere]">
               {profileNames[request.cancelled_by] ?? "不明"}
             </dd>
           </div>
         ) : null}
-        <div className="sm:col-span-2">
+        <div className="min-w-0 sm:col-span-2">
           <dt className="text-xs font-medium uppercase text-zinc-500">
             補足説明
           </dt>
-          <dd className="mt-1 whitespace-pre-wrap text-sm text-zinc-950">
+          <dd className="mt-1 whitespace-pre-wrap break-words text-sm text-zinc-950 [overflow-wrap:anywhere]">
             {request.description || "補足説明はありません。"}
           </dd>
         </div>
         {request.decision_note ? (
-          <div className="sm:col-span-2">
+          <div className="min-w-0 sm:col-span-2">
             <dt className="text-xs font-medium uppercase text-zinc-500">
               判断メモ
             </dt>
-            <dd className="mt-1 whitespace-pre-wrap text-sm text-zinc-950">
+            <dd className="mt-1 whitespace-pre-wrap break-words text-sm text-zinc-950 [overflow-wrap:anywhere]">
               {request.decision_note}
             </dd>
           </div>
         ) : null}
         {request.cancellation_note ? (
-          <div className="sm:col-span-2">
+          <div className="min-w-0 sm:col-span-2">
             <dt className="text-xs font-medium uppercase text-zinc-500">
               キャンセル理由
             </dt>
-            <dd className="mt-1 whitespace-pre-wrap text-sm text-zinc-950">
+            <dd className="mt-1 whitespace-pre-wrap break-words text-sm text-zinc-950 [overflow-wrap:anywhere]">
               {request.cancellation_note}
             </dd>
           </div>
@@ -224,7 +224,7 @@ export default async function RequestDetailPage({
 
               return (
                 <li
-                  className="rounded-md border border-zinc-200 bg-white p-4 text-sm"
+                  className="min-w-0 rounded-md border border-zinc-200 bg-white p-4 text-sm"
                   key={item.id}
                 >
                   <span className="font-medium text-zinc-950">
@@ -237,16 +237,16 @@ export default async function RequestDetailPage({
                     {profileNames[item.actor_id] ?? "不明"}
                   </p>
                   {changeSummaries.length > 0 ? (
-                    <dl className="mt-3 grid gap-2 rounded-md bg-zinc-50 p-3">
+                    <dl className="mt-3 grid min-w-0 gap-2 rounded-md bg-zinc-50 p-3">
                       {changeSummaries.map((change) => (
                         <div
-                          className="grid gap-1 sm:grid-cols-[7rem_1fr]"
+                          className="grid min-w-0 gap-1 sm:grid-cols-[7rem_1fr]"
                           key={change.field}
                         >
                           <dt className="font-medium text-zinc-700">
                             {change.field}
                           </dt>
-                          <dd className="break-words text-zinc-700">
+                          <dd className="min-w-0 break-words text-zinc-700 [overflow-wrap:anywhere]">
                             <span className="whitespace-pre-wrap">
                               {change.from}
                             </span>
@@ -260,7 +260,7 @@ export default async function RequestDetailPage({
                     </dl>
                   ) : null}
                   {item.note ? (
-                    <p className="mt-2 whitespace-pre-wrap text-zinc-700">
+                    <p className="mt-2 whitespace-pre-wrap break-words text-zinc-700 [overflow-wrap:anywhere]">
                       {item.note}
                     </p>
                   ) : null}

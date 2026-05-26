@@ -5,6 +5,7 @@ import {
   decideRequestAction,
   type RequestActionState,
 } from "@/app/(app)/requests/_actions";
+import { requestInputLimits } from "@/lib/request-limits";
 
 const initialActionState: RequestActionState = {};
 
@@ -34,11 +35,14 @@ export function ApprovalPanel({ requestId }: { requestId: string }) {
           判断メモ
         </label>
         <textarea
-          className="min-h-24 rounded-md border border-zinc-300 px-3 py-2 text-sm outline-none focus:border-zinc-900"
+          className="min-h-24 w-full min-w-0 resize-y rounded-md border border-zinc-300 px-3 py-2 text-sm outline-none focus:border-zinc-900"
           id="decisionNote"
           name="decisionNote"
-          maxLength={500}
+          maxLength={requestInputLimits.decisionNote}
         />
+        <p className="text-xs text-zinc-500">
+          {requestInputLimits.decisionNote}文字以内で入力してください。
+        </p>
         {state.fieldErrors?.decisionNote ? (
           <p className="text-sm text-red-600">
             {state.fieldErrors.decisionNote[0]}
@@ -50,7 +54,7 @@ export function ApprovalPanel({ requestId }: { requestId: string }) {
           {state.formError}
         </p>
       ) : null}
-      <div className="flex flex-wrap gap-3">
+      <div className="grid gap-3 sm:flex sm:flex-wrap">
         <button
           className="rounded-md bg-emerald-700 px-4 py-2 text-sm font-medium text-white disabled:cursor-not-allowed disabled:bg-zinc-400"
           disabled={pending}

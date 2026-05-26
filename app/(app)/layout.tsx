@@ -13,16 +13,16 @@ export default async function AppLayout({
   const profile = await getProfileById(supabase, user.id);
 
   return (
-    <div className="min-h-screen bg-zinc-50">
+    <div className="min-h-screen min-w-0 bg-zinc-50">
       <header className="border-b border-zinc-200 bg-white">
-        <nav className="mx-auto flex max-w-5xl flex-col gap-3 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
+        <nav className="mx-auto flex max-w-5xl min-w-0 flex-col gap-3 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
           <Link
-            className="text-base font-semibold text-zinc-950 sm:text-sm"
+            className="break-words text-base font-semibold text-zinc-950 [overflow-wrap:anywhere] sm:text-sm"
             href="/requests"
           >
             備品購入申請
           </Link>
-          <div className="flex w-full items-center justify-between gap-3 text-sm sm:w-auto sm:justify-end">
+          <div className="flex w-full min-w-0 items-center justify-between gap-3 text-sm sm:w-auto sm:justify-end">
             {profile ? (
               <span className="min-w-0 text-zinc-600">
                 <span className="block truncate font-medium text-zinc-800 sm:inline">
@@ -44,7 +44,7 @@ export default async function AppLayout({
           </div>
         </nav>
       </header>
-      <main className="mx-auto max-w-5xl px-4 py-8">{children}</main>
+      <main className="mx-auto max-w-5xl min-w-0 px-4 py-8">{children}</main>
     </div>
   );
 }

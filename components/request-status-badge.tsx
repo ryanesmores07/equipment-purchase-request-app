@@ -15,7 +15,7 @@ export function RequestStatusBadge({
 }) {
   return (
     <span
-      className={`inline-flex rounded-md border px-2 py-1 text-xs font-medium ${statusClassName[status]}`}
+      className={`inline-flex shrink-0 whitespace-nowrap rounded-md border px-2 py-1 text-xs font-medium ${statusClassName[status]}`}
     >
       {statusLabels[status]}
     </span>

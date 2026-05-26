@@ -5,6 +5,7 @@ import {
   cancelRequestAction,
   type RequestActionState,
 } from "@/app/(app)/requests/_actions";
+import { requestInputLimits } from "@/lib/request-limits";
 
 const initialActionState: RequestActionState = {};
 
@@ -36,11 +37,14 @@ export function CancelRequestForm({ requestId }: { requestId: string }) {
           キャンセル理由（任意）
         </label>
         <textarea
-          className="min-h-24 rounded-md border border-red-200 bg-white px-3 py-2 text-sm outline-none focus:border-red-700"
+          className="min-h-24 w-full min-w-0 resize-y rounded-md border border-red-200 bg-white px-3 py-2 text-sm outline-none focus:border-red-700"
           id="cancellationNote"
           name="cancellationNote"
-          maxLength={500}
+          maxLength={requestInputLimits.cancellationNote}
         />
+        <p className="text-xs text-red-800">
+          {requestInputLimits.cancellationNote}文字以内で入力してください。
+        </p>
         {state.fieldErrors?.cancellationNote ? (
           <p className="text-sm text-red-700">
             {state.fieldErrors.cancellationNote[0]}
@@ -67,7 +71,7 @@ export function CancelRequestForm({ requestId }: { requestId: string }) {
         </p>
       ) : null}
       <button
-        className="w-fit rounded-md bg-red-700 px-4 py-2 text-sm font-medium text-white disabled:cursor-not-allowed disabled:bg-zinc-400"
+        className="w-full rounded-md bg-red-700 px-4 py-2 text-sm font-medium text-white disabled:cursor-not-allowed disabled:bg-zinc-400 sm:w-fit"
         disabled={pending}
         type="submit"
       >
