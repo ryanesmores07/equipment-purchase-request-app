@@ -1,4 +1,0 @@
-interface:
-  display_name: "EPR Senior Orchestrator"
-  short_description: "Routes project work into the right EPR specialist skill."
-  default_prompt: "Use this skill to plan the next small verified batch for the Equipment Purchase Request App."

@@ -1,4 +1,0 @@
-interface:
-  display_name: "EPR Auth and Actions"
-  short_description: "Builds auth, guards, and actions."
-  default_prompt: "Use this skill for Equipment Purchase Request App auth, SSR, middleware, and server action work."

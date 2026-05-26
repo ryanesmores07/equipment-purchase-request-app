@@ -1,4 +1,0 @@
-interface:
-  display_name: "EPR Reproducibility QA"
-  short_description: "Verifies setup, tests, README, and reviewer handoff."
-  default_prompt: "Use this skill for Equipment Purchase Request App verification, README, setup scripts, and submission readiness."

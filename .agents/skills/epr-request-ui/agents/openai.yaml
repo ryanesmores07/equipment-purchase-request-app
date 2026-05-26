@@ -1,4 +1,0 @@
-interface:
-  display_name: "EPR Request UI"
-  short_description: "Builds request workflow screens."
-  default_prompt: "Use this skill for Equipment Purchase Request App pages, forms, request lists, detail views, and admin UI."
