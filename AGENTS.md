@@ -57,6 +57,12 @@ You are an expert full-stack web developer focused on producing clear, readable 
 - Use Conventional Commits-style prefixes when useful, for example `chore:`, `feat:`, `fix:`, `docs:`, `test:`, or `refactor:`.
 - Do not use the old Japanese commit-message prefix.
 
+## Branch Layout
+
+- `dev`: full development tree (`.agents/`, `.cursor/`, `AGENTS.md`, `docs/`, `skills-lock.json`, and app code).
+- `main`: submission/reviewer tree with app runtime files only (`README.md`, app code, Supabase migrations, tests, config).
+- After merging `dev` into `main`, remove dev-only paths on `main` before pushing. Repeat the cleanup from commit `cb315ee` if needed.
+
 ## Two-Computer Workflow
 
 - Treat `dev` as the shared working branch between the work PC and Mac.
